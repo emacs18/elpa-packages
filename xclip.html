@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC>
+<html>
+    <head>
+        <title>GNU ELPA - xclip</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1>GNU ELPA - xclip</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">xclip</h2><dl><dt>Description</dt><dd>Copy&amp;paste GUI clipboard from text terminal</dd>
+<dt>Latest</dt> <dd><a href="xclip-1.4.el">xclip-1.4.el</a>, 2018-Nov-02, 10.7kB</dd>
+<dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/xclip.html">http://elpa.gnu.org/packages/xclip.html</a></dd>
+<dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/xclip">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/xclip">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">xclip</span> RET</pre><h2>Full description</h2><pre>
+This package allows Emacs to copy to and paste from the GUI clipboard
+when running in text terminal.
+
+It relies on external command-line tools for that, which you may need
+to install in order for the package to work.
+More specifically, it can use the following tools:
+- Under X11: `xclip' or `xsel' (http://xclip.sourceforge.net and
+  http://www.vergenet.net/~conrad/software/xsel/ respectively).
+- MacOS: `pbpaste/pbcopy'
+- Cygwin: `getclip/putclip'
+
+To use, just add (xclip-mode 1) to your ~/.emacs or do `M-x clip-mode'
+after which the usual kill/yank commands will use the GUI selections
+according to `select-enable-clipboard/primary'.
+</pre>
+</body>

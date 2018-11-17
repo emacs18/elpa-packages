@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC>
+<html>
+    <head>
+        <title>GNU ELPA - eglot</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1>GNU ELPA - eglot</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">eglot</h2><dl><dt>Description</dt><dd>Client for Language Server Protocol (LSP) servers</dd>
+<dt>Latest</dt> <dd><a href="eglot-1.1.tar">eglot-1.1.tar</a>, 2018-Nov-02,  440kB</dd>
+<dt>Maintainer</dt> <dd>João Távora &lt;joaotavora@gmail.com></dd>
+<dt>Home page</dt> <dd><a href="https://github.com/joaotavora/eglot">https://github.com/joaotavora/eglot</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/eglot">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/eglot">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">eglot</span> RET</pre><h2>Full description</h2><pre>
+Simply M-x eglot should be enough to get you started, but here's a
+little info (see the accompanying README.md or the URL for more).
+
+M-x eglot starts a server via a shell-command guessed from
+`eglot-server-programs', using the current major-mode (for whatever
+language you're programming in) as a hint.  If it can't guess, it
+prompts you in the mini-buffer for these things.  Actually, the
+server needen't be locally started: you can connect to a running
+server via TCP by entering a &lt;host:port> syntax.
+
+Anyway, if the connection is successful, you should see an `eglot'
+indicator pop up in your mode-line.  More importantly, this means
+current *and future* file buffers of that major mode *inside your
+current project* automatically become \"managed\" by the LSP
+server, i.e.  information about their contents is exchanged
+periodically to provide enhanced code analysis via
+`xref-find-definitions', `flymake-mode', `eldoc-mode',
+`completion-at-point', among others.
+
+To "unmanage" these buffers, shutdown the server with M-x
+eglot-shutdown.
+
+You can also do:
+
+  (add-hook 'foo-mode-hook 'eglot-ensure)
+
+To attempt to start an eglot session automatically everytime a
+foo-mode buffer is visited.
+</pre>
+</body>
