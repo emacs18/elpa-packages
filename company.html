@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">company</h2><dl><dt>Description</dt><dd>Modular text completion framework</dd>
-<dt>Latest</dt> <dd><a href="company-0.9.6.tar">company-0.9.6.tar</a>, 2018-Nov-02,  410kB</dd>
+<dt>Latest</dt> <dd><a href="company-0.9.7.tar">company-0.9.7.tar</a>, 2018-Dec-31,  420kB</dd>
 <dt>Maintainer</dt> <dd>Dmitry Gutov &lt;dgutov@yandex.ru></dd>
 <dt>Home page</dt> <dd><a href="http://company-mode.github.io/">http://company-mode.github.io/</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/company">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/company">Gitweb</a></dd>
@@ -47,7 +47,9 @@ To write your own backend, look at the documentation for `company-backends'.
 Here is a simple example completing "foo":
 
 (defun company-my-backend (command &amp;optional arg &amp;rest ignored)
+  (interactive (list 'interactive))
   (pcase command
+    (`interactive (company-begin-backend 'company-my-backend))
     (`prefix (company-grab-symbol))
     (`candidates (list "foobar" "foobaz" "foobarbaz"))
     (`meta (format "This value is named %s" arg))))
@@ -58,6 +60,24 @@ this, add a list with both backends as an element in `company-backends'.
 </pre>
 <h2>News</h2><pre>
 # History of user-visible changes
+
+## 2018-11-06 (0.9.7)
+
+* For more sophisticated highlighting in non-prefix completion, a backend may
+  now respond to a `match` request with a list of regions.  See
+  `company-backends`.
+  ([#798](https://github.com/company-mode/company-mode/issues/798),
+  [#762](https://github.com/company-mode/company-mode/issues/762))
+* The `company-capf` backend will pick up on a `:company-match` metadata element
+  on the capf function (similar to `:company-location` or `:company-doc-buffer`)
+  and use it as a response to aforementioned `match` request.
+* `company-cmake` supports completion inside string interpolations
+  ([#714](https://github.com/company-mode/company-mode/pull/714)).
+* Workaround for the conflict between `inferior-python-mode`'s completion code
+  and `company-sort-by-occurrence`.
+* In Emacs 26 and newer, `company-css` is removed from `company-backends`.
+  `company-capf` is used instead.
+* Same for `company-nxml`.
 
 ## 2018-02-23 (0.9.6)
 
