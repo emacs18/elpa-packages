@@ -46,7 +46,8 @@ respectively:
     minibuffer).  All commands that are not search or scrolling
     commands terminate the search, while the state of the search is
     always automatically saved.  Like in isearch you can also just
-    hit RET to exit.
+    hit RET to exit or C-g to abort and jump back to where you
+    started.
 
   C-R, M-s e r (el-search-pattern-backward)
     Search backward.
@@ -264,15 +265,29 @@ This will do it:
    `(foo ,b ,a . ,rest) RET
 
 Type y to replace a match and go to the next one, r to replace
-without moving, SPC or n to go to the next match and ! to replace
-all remaining matches automatically.  q quits.  And ? shows a quick
-help summarizing all of these keys.
+without moving (hitting r again restores that match), n to go to
+the next match without replacing and ! to replace all remaining
+matches automatically.  q quits.  ? shows a quick help summarizing
+all of these keys.
 
 It is possible to replace a match with an arbitrary number of
 expressions using "splicing mode".  When it is active, the
 replacement expression must evaluate to a list, and is spliced into
 the buffer for any match.  Hit s from the prompt to toggle splicing
 mode in an `el-search-query-replace' session.
+
+There are two ways to edit replacements directly while performing
+an el-search-query-replace:
+
+(1) Without suspending the search: hit o at the prompt to show the
+replacement of the current match in a separate buffer.  You can
+edit the replacement in this buffer.  Confirming with C-c C-c will
+make el-search replace the current match with this buffer's
+contents.
+
+(2) At any time you can interrupt a query-replace session by
+hitting RET.  Make your edits, then resume the query-replace
+session by hitting C-S-j C-% or M-s e j %.
 
 
 Multi query-replace
@@ -345,18 +360,6 @@ Known Limitations and Bugs
   to reading-printing.  "Some" because we can handle this problem
   in most cases.
 
-- Similar: comments are normally preserved (where it makes sense).
-  But when replacing like `(foo ,a ,b) -> `(foo ,b ,a)
-
-  in a content like
-
-    (foo
-      a
-      ;; comment
-      b)
-
-  the comment will be lost.
-
 - Something like (1 #1#) is unmatchable (because it is un`read'able
   without context).
 
@@ -373,10 +376,6 @@ Known Limitations and Bugs
 
 TODO:
 
-- There should be a way to go back to the starting position, like
-  in Isearch, which does this with (push-mark isearch-opoint t) in
-  `isearch-done'.
-
 - Add a help command that can be called while searching.
 
 - Make searching work in comments, too? (->
@@ -388,10 +387,6 @@ TODO:
 - Port this package to non Emacs Lisp modes?  How?  Would it
   already suffice using only syntax tables, sexp scanning and
   font-lock?
-
-- Replace: pause and warn when replacement might be wrong
-  (ambiguous reader syntaxes; lost comments, comments that can't
-  non-ambiguously be assigned to rewritten code)
 
 - There could be something much better than pp to format the
   replacement, or pp should be improved.

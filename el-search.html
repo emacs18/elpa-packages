@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">el-search</h2><dl><dt>Description</dt><dd>Expression based interactive search for Emacs Lisp</dd>
-<dt>Latest</dt> <dd><a href="el-search-1.7.15.tar">el-search-1.7.15.tar</a>, 2018-Dec-31,  220kB</dd>
+<dt>Latest</dt> <dd><a href="el-search-1.8.8.tar">el-search-1.8.8.tar</a>, 2018-Dec-31,  240kB</dd>
 <dt>Maintainer</dt> <dd>Michael Heerdegen &lt;michael_heerdegen@web.de></dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/el-search.html">http://elpa.gnu.org/packages/el-search.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/el-search">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/el-search">Gitweb</a></dd>
@@ -77,7 +77,8 @@ respectively:
     minibuffer).  All commands that are not search or scrolling
     commands terminate the search, while the state of the search is
     always automatically saved.  Like in isearch you can also just
-    hit RET to exit.
+    hit RET to exit or C-g to abort and jump back to where you
+    started.
 
   C-R, M-s e r (el-search-pattern-backward)
     Search backward.
@@ -295,15 +296,29 @@ This will do it:
    `(foo ,b ,a . ,rest) RET
 
 Type y to replace a match and go to the next one, r to replace
-without moving, SPC or n to go to the next match and ! to replace
-all remaining matches automatically.  q quits.  And ? shows a quick
-help summarizing all of these keys.
+without moving (hitting r again restores that match), n to go to
+the next match without replacing and ! to replace all remaining
+matches automatically.  q quits.  ? shows a quick help summarizing
+all of these keys.
 
 It is possible to replace a match with an arbitrary number of
 expressions using "splicing mode".  When it is active, the
 replacement expression must evaluate to a list, and is spliced into
 the buffer for any match.  Hit s from the prompt to toggle splicing
 mode in an `el-search-query-replace' session.
+
+There are two ways to edit replacements directly while performing
+an el-search-query-replace:
+
+(1) Without suspending the search: hit o at the prompt to show the
+replacement of the current match in a separate buffer.  You can
+edit the replacement in this buffer.  Confirming with C-c C-c will
+make el-search replace the current match with this buffer's
+contents.
+
+(2) At any time you can interrupt a query-replace session by
+hitting RET.  Make your edits, then resume the query-replace
+session by hitting C-S-j C-% or M-s e j %.
 
 
 Multi query-replace
@@ -376,18 +391,6 @@ Known Limitations and Bugs
   to reading-printing.  "Some" because we can handle this problem
   in most cases.
 
-- Similar: comments are normally preserved (where it makes sense).
-  But when replacing like `(foo ,a ,b) -> `(foo ,b ,a)
-
-  in a content like
-
-    (foo
-      a
-      ;; comment
-      b)
-
-  the comment will be lost.
-
 - Something like (1 #1#) is unmatchable (because it is un`read'able
   without context).
 
@@ -404,10 +407,6 @@ Known Limitations and Bugs
 
 TODO:
 
-- There should be a way to go back to the starting position, like
-  in Isearch, which does this with (push-mark isearch-opoint t) in
-  `isearch-done'.
-
 - Add a help command that can be called while searching.
 
 - Make searching work in comments, too? (->
@@ -420,10 +419,6 @@ TODO:
   already suffice using only syntax tables, sexp scanning and
   font-lock?
 
-- Replace: pause and warn when replacement might be wrong
-  (ambiguous reader syntaxes; lost comments, comments that can't
-  non-ambiguously be assigned to rewritten code)
-
 - There could be something much better than pp to format the
   replacement, or pp should be improved.
 
@@ -435,6 +430,37 @@ NEWS are listed in the separate NEWS file.
 <h2>News</h2><pre>
 Some of the user visible news were:
 
+
+Version: 1.8.4
+
+  Quitting (C-g) while el-searching now brings you back to the
+  starting point like in isearch.
+
+Version: 1.8.3
+
+  `el-search-query-replace' now adds undo boundaries for each manual
+  replacement so that afterwards `undo' undoes replacements
+  step-by-step similar to vanilla `query-replace'.
+
+Version: 1.8
+
+  Several improvements in `el-search-query-replace':
+
+  It's now possible to edit the replacement in a separate buffer
+  without interrupting `el-search-query-replace', and to ediff the
+  current replacement with the current match (new keys 'o' and 'e').
+ 
+  Hitting the 'r' key now toggles between replacing a match without
+  moving and restoring the match.
+
+  After replacing a match with 'r', the key to go to the next match
+  changed from 'n' to 'y' which should feel more natural.
+
+  Depending on the value of the new user option
+  `el-search-query-replace-stop-for-comments',
+  `el-search-query-replace' can now interrupt automatic replacement
+  when it's not able to unumbigously assign comments in the current
+  match to the replacement.
 
 Version: 1.7.15
 
