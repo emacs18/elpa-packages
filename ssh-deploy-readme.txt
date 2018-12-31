@@ -1,34 +1,3 @@
-<!DOCTYPE HTML PUBLIC>
-<html>
-    <head>
-        <title>GNU ELPA - ssh-deploy</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="shortcut icon" type="image/png" href="../favicon.png">
-        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
-        <link rel="stylesheet" type="text/css" href="../layout.css">
-        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
-        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
-        <script src="../javascript/package-search.js" type="text/javascript"></script>
-        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
-    </head>
-    <body>
-
-        <div class="wrapper">
-
-            <div class="header small">
-                <div class="container">
-                    <h1>GNU ELPA - ssh-deploy</h1>
-                </div>
-            </div>
-
-            <div class="container">
-<h2 class="package">ssh-deploy</h2><dl><dt>Description</dt><dd>Deployment via TRAMP, global or per directory.</dd>
-<dt>Latest</dt> <dd><a href="ssh-deploy-3.0.tar">ssh-deploy-3.0.tar</a>, 2018-Dec-31,  110kB</dd>
-<dt>Maintainer</dt> <dd>Christian Johansson &lt;christian@cvj.se></dd>
-<dt>Home page</dt> <dd><a href="https://github.com/cjohansson/emacs-ssh-deploy">https://github.com/cjohansson/emacs-ssh-deploy</a></dd>
-<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/ssh-deploy">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/ssh-deploy">Gitweb</a></dd>
-</dl><p>To install this package, run in Emacs:</p>
-                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">ssh-deploy</span> RET</pre><h2>Full description</h2><pre>
 ssh-deploy enables automatic deploys on explicit-save actions, manual uploads, renaming,
 deleting, downloads, file and directory differences, launching remote terminals (eshell, shell),
 detection of remote changes, remote directory browsing, remote SQL database sessions and
@@ -130,5 +99,3 @@ Here is a list of other variables you can set globally or per directory:
 When integers are used as booleans, above zero means true, zero means false and nil means unset and fallback to global settings.
 
 Please see README.md from the same repository for more extended documentation.
-</pre>
-</body>
