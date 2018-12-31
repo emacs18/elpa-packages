@@ -4,7 +4,7 @@
 
 ;; Author: Stefan Monnier <monnier@iro.umontreal.ca>
 ;; Keywords: data
-;; Version: 0.9
+;; Version: 1.0
 ;; Package-Requires: ((emacs "24.4") (cl-lib "0.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -40,6 +40,9 @@
 ;; - `nhexl-overwrite-only-mode': a minor mode to try and avoid moving text.
 ;;   In this minor mode, not only self-inserting keys overwrite existing
 ;;   text, but commands like `yank' and `kill-region' as well.
+;;
+;; - it overrides C-u to use hexadecimal, so you can do C-u a 4 C-f
+;;   to advance by #xa4 characters.
 
 ;; Even though the hex addresses displayed by this mode aren't actually
 ;; part of the buffer's text (contrary to hexl-mode, for example), you can
@@ -325,6 +328,8 @@ existing text, if needed with `nhexl-overwrite-clear-byte'."
     (define-key map [remap scroll-up-command] #'nhexl-scroll-up)
     (define-key map [remap scroll-down-command] #'nhexl-scroll-down)
     (define-key map [remap mouse-set-point] #'nhexl-mouse-set-point)
+    (define-key map [remap mouse-drag-region] #'nhexl-mouse-drag-region)
+    (define-key map [remap mouse-set-region] #'nhexl-mouse-set-region)
     ;; FIXME: Find a key binding for nhexl-nibble-edit-mode!
     map))
 
@@ -463,35 +468,55 @@ existing text, if needed with `nhexl-overwrite-clear-byte'."
 (eval-and-compile
   (defvar nhexl--put-LF-in-string nil))
 
-(defun nhexl-mouse-set-point (event)
-  "Move point to the position clicked on with the mouse."
-  (interactive "e")
-  ;; (cl-assert (eq last-))
-  (let* ((posn (event-end event))
-         (str-data (posn-string posn))
+(defun nhexl--posn-hexadjust (posn)
+  "Adjust POSN when clicking on the hex area.
+Return the corresponding nibble, if applicable."
+  ;; When clicking in the hex area, (nth 1 posn) contains the first position
+  ;; covered by the before-string, and (nth 5 posn) as well.  Improve this by
+  ;; setting nth-5 (the one used by `posn-point') to the closest buffer
+  ;; position corresponding to the hex on which we clicked.
+  (let* ((str-data (posn-string posn))
+         (base-pos (nth 1 posn))
          (addr-offset (eval-when-compile
                         (+ (if nhexl--put-LF-in-string 1 0)
-                           9            ;for "<address>:"
-                           1))))        ;for the following (stretch)space
+                           9           ;for "<address>:"
+                           1))))       ;for the following (stretch)space
     ;; (message "NMSP: strdata=%S" str-data)
-    (cond
-     ((and (consp str-data) (stringp (car str-data))
-           (integerp (cdr str-data)) (> (cdr str-data) addr-offset))
+    (when (and (consp str-data) (stringp (car str-data)) (integerp base-pos)
+               (integerp (cdr str-data)) (> (cdr str-data) addr-offset))
       (let* ((hexchars (- (cdr str-data) addr-offset))
              ;; FIXME: Calculations here go wrong in the presence of
              ;; chars with code > 255.
              (hex-no-spaces (- hexchars (/ (1+ hexchars) 5)))
              (bytes (min (/ hex-no-spaces 2)
                          ;; Bound, for clicks between the hex and ascii areas.
-                         (1- (nhexl--line-width)))))
-        ;; This will select the window if needed and move point to the
-        ;; beginning of the line.
-        (posn-set-point posn)
-        (forward-char bytes)
-        (when nhexl-nibble-edit-mode
-          (let* ((nibble (- hex-no-spaces (* bytes 2))))
-            (nhexl--nibble-set (min nibble 1))))))
-     (t (call-interactively #'mouse-set-point)))))
+                         (1- (nhexl--line-width))))
+             (newpos (min (+ base-pos bytes) (point-max))))
+        (setf (nth 5 posn) newpos)
+        (let* ((nibble (- hex-no-spaces (* bytes 2))))
+          (min nibble 1))))))
+
+(defun nhexl-mouse-set-point (event)
+  "Move point to the position clicked on with the mouse."
+  (interactive "e")
+  (let* ((nibble (nhexl--posn-hexadjust (event-end event))))
+    (call-interactively #'mouse-set-point)
+    (when (and nibble nhexl-nibble-edit-mode)
+      (nhexl--nibble-set nibble)
+      (nhexl--refresh-cursor))))
+
+(defun nhexl-mouse-drag-region (event)
+  "Set the region to the text that the mouse is dragged over."
+  (interactive "e")
+  (nhexl--posn-hexadjust (event-start event))
+  (call-interactively #'mouse-drag-region))
+
+(defun nhexl-mouse-set-region (event)
+  "Set the region to the text dragged over, and copy to kill ring."
+  (interactive "e")
+  (nhexl--posn-hexadjust (event-start event))
+  (nhexl--posn-hexadjust (event-end event))
+  (call-interactively #'mouse-set-region))
 
 (defun nhexl--change-function (beg end len)
   ;; Round modifications up-to the hexl-line length since nhexl--jit will need
@@ -613,6 +638,16 @@ existing text, if needed with `nhexl-overwrite-clear-byte'."
                                  ,(+ (/ (* lw 5) 2)
                                      12 3))))))
     (font-lock-append-text-property 0 (length s) prop 'default s)
+    ;; If the first char of the text has a button (e.g. it's part of
+    ;; a hyperlink), clicking in the hex part of the display might signal
+    ;; an error because it thinks we're clicking on the hyperlink.
+    ;; So override the relevant properties.
+    (put-text-property 0 (length s) 'keymap (make-sparse-keymap) s)
+    (put-text-property 0 (length s) 'follow-link #'ignore s)
+    ;; Override any `category' property that might otherwise be inherited from
+    ;; the text (e.g. that of some button).
+    ;; FIXME: This doesn't have the intended effect!
+    (put-text-property 0 (length s) 'category t s)
     s))
 
 (defun nhexl--jit (from to)
@@ -836,7 +871,74 @@ existing text, if needed with `nhexl-overwrite-clear-byte'."
         (unless (eql pow2bytes nhexl-line-width)
           (setq-local nhexl-line-width pow2bytes))))))
 
+;;;;; The main prefix command.
+
+(defvar nhexl-universal-argument-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map universal-argument-map)
+    (define-key map [?\C-u] 'universal-argument-more)
+    (define-key map [remap digit-argument] 'nhexl-digit-argument)
+    (dolist (k '("a" "b" "c" "d" "e" "f"))
+      (define-key map k 'nhexl-digit-argument))
+    map)
+  "Keymap used while processing nhexl-mode's \\[universal-argument].")
+
+;; FIXME: Using advice is ugly!
+
+;; Instead of an advice, we'd prefer to replace universal-argument--description
+;; on prefix-command-echo-keystrokes-functions, but there's no mechanism to
+;; do that.
+(advice-add 'universal-argument--description :around
+            #'nhexl--universal-argument-description)
+(defun nhexl--universal-argument-description (orig-fun &rest args)
+  (cond
+   ((not nhexl-mode) (apply orig-fun args))
+   ((null prefix-arg) nil)
+   (t
+    (concat "C-u"
+            (pcase prefix-arg
+              (`(-) " -")
+              (`(,(and (pred integerp) n))
+               (let ((str ""))
+                 (while (and (> n 4) (= (mod n 4) 0))
+                   (setq str (concat str " C-u"))
+                   (setq n (/ n 4)))
+                 (if (= n 4) str (format " %s" prefix-arg))))
+              ((pred integerp) (format " #x%X" prefix-arg))
+              (_ (format " %s" prefix-arg)))))))
+
+(advice-add 'universal-argument--mode :around
+            #'nhexl--universal-argument-mode)
+(defun nhexl--universal-argument-mode (orig-fun &rest args)
+  (if (not nhexl-mode)
+      (apply orig-fun args)
+    (let ((universal-argument-map nhexl-universal-argument-map))
+      (apply orig-fun args))))
+
+(defun nhexl-digit-argument (arg)
+  "Part of the hexadecimal numeric argument for the next command.
+\\[universal-argument] following digits or minus sign ends the argument."
+  (interactive "P")
+  (prefix-command-preserve-state)
+  (let* ((keys (this-command-keys))
+         (key (aref keys (1- (length keys))))
+         (char (if (integerp key) (logand key #x7f)))
+	 (digit (cond
+                 ((<= ?a char ?f) (+ 10 (- char ?a)))
+                 ((<= ?A char ?F) (+ 10 (- char ?A)))
+                 ((<= ?0 char ?9) (- char ?0)))))
+    (setq prefix-arg (cond ((integerp arg)
+                            (+ (* arg 16)
+			       (if (< arg 0) (- digit) digit)))
+                           ((eq arg '-)
+                            ;; Treat -0 as just -, so that -01 will work.
+                            (if (zerop digit) '- (- digit)))
+                           (t
+                            digit))))
+  (universal-argument--mode))
+
 ;;;; ChangeLog:
+
 
 
 
