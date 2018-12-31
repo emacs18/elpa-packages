@@ -222,9 +222,8 @@ match gives you a pop-up window displaying the position of the
 match in that buffer or file.  With S-tab you can (un)collapse all
 file sections like in `org-mode' to see only file names and the
 number of matches, or everything.  Tab folds and unfolds
-expressions (this uses hideshow; initially, all expressions are
-folded to one line) and also sections at the beginning of
-headlines.
+expressions (this uses hideshow) and also sections at the beginning
+of headlines.
 
 
 Multiple multi searches
@@ -370,11 +369,6 @@ Known Limitations and Bugs
 - Emacs bug#30132: 27.0.50; "scan-sexps and ##": Occurrences of the
   syntax "##" (a syntax for an interned symbol whose name is the
   empty string) can lead to errors while searching.
-
-- In *El Occur* buffers, when there are adjacent or nested matches,
-  the movement commands (el-search-occur-previous-match,
-  el-search-occur-next-match aka n and p) may skip matches, and the
-  shown match count can be inaccurate.
 
 
 TODO:

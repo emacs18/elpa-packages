@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">el-search</h2><dl><dt>Description</dt><dd>Expression based interactive search for Emacs Lisp</dd>
-<dt>Latest</dt> <dd><a href="el-search-1.7.9.tar">el-search-1.7.9.tar</a>, 2018-Nov-02,  220kB</dd>
+<dt>Latest</dt> <dd><a href="el-search-1.7.15.tar">el-search-1.7.15.tar</a>, 2018-Dec-31,  220kB</dd>
 <dt>Maintainer</dt> <dd>Michael Heerdegen &lt;michael_heerdegen@web.de></dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/el-search.html">http://elpa.gnu.org/packages/el-search.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/el-search">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/el-search">Gitweb</a></dd>
@@ -253,9 +253,8 @@ match gives you a pop-up window displaying the position of the
 match in that buffer or file.  With S-tab you can (un)collapse all
 file sections like in `org-mode' to see only file names and the
 number of matches, or everything.  Tab folds and unfolds
-expressions (this uses hideshow; initially, all expressions are
-folded to one line) and also sections at the beginning of
-headlines.
+expressions (this uses hideshow) and also sections at the beginning
+of headlines.
 
 
 Multiple multi searches
@@ -402,11 +401,6 @@ Known Limitations and Bugs
   syntax "##" (a syntax for an interned symbol whose name is the
   empty string) can lead to errors while searching.
 
-- In *El Occur* buffers, when there are adjacent or nested matches,
-  the movement commands (el-search-occur-previous-match,
-  el-search-occur-next-match aka n and p) may skip matches, and the
-  shown match count can be inaccurate.
-
 
 TODO:
 
@@ -441,6 +435,10 @@ NEWS are listed in the separate NEWS file.
 <h2>News</h2><pre>
 Some of the user visible news were:
 
+
+Version: 1.7.15
+
+  *El Occur* buffers are now initially unfolded.
 
 Version: 1.7.8
 
