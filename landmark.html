@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">landmark</h2><dl><dt>Description</dt><dd>Neural-network robot that learns landmarks</dd>
-<dt>Latest</dt> <dd><a href="landmark-1.0.el">landmark-1.0.el</a>, 2018-Nov-02, 58.3kB</dd>
+<dt>Latest</dt> <dd><a href="landmark-1.0.el">landmark-1.0.el</a>, 2018-Dec-31, 58.5kB</dd>
 <dt>Maintainer</dt> <dd>emacs-devel@gnu.org</dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/landmark.html">http://elpa.gnu.org/packages/landmark.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/landmark">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/landmark">Gitweb</a></dd>
@@ -37,7 +37,7 @@ based on unique olfactory cues from each of the 4 directions. If
 the smell of the tree increases, then the weights in the robot's
 brain are adjusted to encourage this odor-driven behavior in the
 future. If the smell of the tree decreases, the robots weights are
-adjusted to discourage a correct move.
+adjusted to discourage that odor-driven behavior.
 
 In laymen's terms, the search space is initially flat. The point
 of training is to "turn up the edges of the search space" so that
@@ -53,6 +53,13 @@ move in a net direction can produce gross credit assignment. for
 example, if moving south will produce positive payoff, then, if in
 a single move, one moves east,west and south, then both east and
 west will be improved when they shouldn't
+
+The source code was developed as part of a course on Brain Theory
+and Neural Networks at the University of Southern California. The
+original problem description and solution appeared in 1981 in the
+paper "Landmark Learning: An Illustration of Associative
+Search" authored by Andrew G. Barto and Richard S. Sutton and
+published to Biological Cybernetics.
 
 Many thanks to Yuri Pryadkin &lt;yuri@rana.usc.edu> for this
 concise problem description.
