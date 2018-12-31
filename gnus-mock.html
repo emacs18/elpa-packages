@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">gnus-mock</h2><dl><dt>Description</dt><dd>Mock Gnus installation for testing</dd>
-<dt>Latest</dt> <dd><a href="gnus-mock-0.1.2.tar">gnus-mock-0.1.2.tar</a>, 2018-Nov-02,  150kB</dd>
+<dt>Latest</dt> <dd><a href="gnus-mock-0.2.1.tar">gnus-mock-0.2.1.tar</a>, 2018-Dec-31,  430kB</dd>
 <dt>Maintainer</dt> <dd>Eric Abrahamsen &lt;eric@ericabrahamsen.net></dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/gnus-mock.html">http://elpa.gnu.org/packages/gnus-mock.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/gnus-mock">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/gnus-mock">Gitweb</a></dd>
@@ -55,11 +55,11 @@ restore the environment.
 Users have two options for adding custom configuration to the mock
 session:
 
-- `gnus-mock-gnus-settings' can be set to a filename, the contents
+- `gnus-mock-gnus-file' can be set to a filename, the contents
    of which will be appended to the .gnus.el startup file in the
    mock session.  This code will be executed at Gnus startup.
 
-- `gnus-mock-init-setting' should also be a filename, the contents
+- `gnus-mock-init-file' should also be a filename, the contents
   of which will be appended to the init.el file that is loaded when
   the child Emacs process starts.
 
