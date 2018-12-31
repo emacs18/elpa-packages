@@ -4,7 +4,7 @@
 
 ;; Author: Jan Tatarik <jan.tatarik@gmail.com>
 ;; Maintainer: Eric Abrahamsen <eric@ericabrahamsen.net>
-;; Version: 1
+;; Version: 1.1
 ;; Package-Requires: ((company "0.9.4") (ebdb "0.2"))
 
 ;; This file is part of GNU Emacs.
@@ -41,20 +41,29 @@
   "Completion backend for EBDB."
   :group 'company)
 
-(defcustom company-ebdb-modes '(message-mode mail-mode notmuch-message-mode)
+(defcustom company-ebdb-modes '(message-mode mail-mode)
   "Major modes in which `company-ebdb' may complete."
   :type '(repeat (symbol :tag "Major mode"))
   :package-version '(company . "0.8.8"))
 
+(defcustom company-ebdb-pop-up t
+  "When non-nil, pop up an *EBDB* buffer after completion."
+  :type 'boolean)
+
 (defun company-ebdb--candidates (arg)
   (cl-mapcan (lambda (record)
-               (mapcar (lambda (mail) (ebdb-dwim-mail record mail))
-                       (ebdb-record-mail record t)))
+	       (delq nil
+		     (mapcar (lambda (mail)
+			       (let ((dwim (ebdb-dwim-mail record mail)))
+				 (when (string-match-p arg dwim)
+				   dwim)))
+			     (ebdb-record-mail record))))
              (eval '(ebdb-search (ebdb-records) `((ebdb-field-name ,arg)
 						  (ebdb-field-mail ,arg))))))
 
 (defun company-ebdb--post-complete (arg)
-  (when (memq major-mode company-ebdb-modes)
+  (when (and company-ebdb-pop-up
+	     (apply #'derived-mode-p company-ebdb-modes))
    (let* ((bits (ebdb-decompose-ebdb-address arg))
 	  (recs (ebdb-message-search (car bits) (nth 1 bits))))
      (when recs
@@ -66,7 +75,7 @@
   (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'company-ebdb))
-    (prefix (and (memq major-mode company-ebdb-modes)
+    (prefix (and (apply #'derived-mode-p company-ebdb-modes)
                  (featurep 'ebdb-com)
                  (looking-back "^\\(To\\|Cc\\|Bcc\\): *.*? *\\([^,;]*\\)"
                                (line-beginning-position))
@@ -75,6 +84,8 @@
     (post-completion (company-ebdb--post-complete arg))
     (sorted t)
     (no-cache t)))
+
+(add-to-list 'company-backends 'company-ebdb)
 
 ;;;; ChangeLog:
 
