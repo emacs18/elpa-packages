@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">nhexl-mode</h2><dl><dt>Description</dt><dd>Minor mode to edit files via hex-dump format</dd>
-<dt>Latest</dt> <dd><a href="nhexl-mode-1.0.el">nhexl-mode-1.0.el</a>, 2018-Dec-31, 39.2kB</dd>
+<dt>Latest</dt> <dd><a href="nhexl-mode-1.2.el">nhexl-mode-1.2.el</a>, 2018-Dec-31, 44.2kB</dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/nhexl-mode.html">http://elpa.gnu.org/packages/nhexl-mode.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/nhexl-mode">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/nhexl-mode">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
@@ -50,9 +50,10 @@ It also comes with:
 - it overrides C-u to use hexadecimal, so you can do C-u a 4 C-f
   to advance by #xa4 characters.
 
-Even though the hex addresses displayed by this mode aren't actually
-part of the buffer's text (contrary to hexl-mode, for example), you can
-search them with Isearch.
+Even though the hex addresses and hex data displayed by this mode aren't
+actually part of the buffer's text (contrary to hexl-mode, for example,
+they're only added to the display), you can search them with Isearch,
+according to nhexl-isearch-hex-addresses and nhexl-isearch-hex-bytes.
 
 Known bugs:
 
