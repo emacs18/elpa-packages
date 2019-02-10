@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">djvu</h2><dl><dt>Description</dt><dd>Edit and view Djvu files via djvused</dd>
-<dt>Latest</dt> <dd><a href="djvu-1.0.el">djvu-1.0.el</a>, 2018-Dec-31,  165kB</dd>
+<dt>Latest</dt> <dd><a href="djvu-1.0.1.el">djvu-1.0.1.el</a>, 2019-Feb-10,  165kB</dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/djvu.html">http://elpa.gnu.org/packages/djvu.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/djvu">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/djvu">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
@@ -155,6 +155,10 @@ slightly modified djvused script syntax.
   text or annotations layer if the script is messed up.
 </pre>
 <h2>News</h2><pre>
+v1.0.1:
+- Use `create-file-buffer' instead of `generate-new-buffer'
+  for compatibility with uniquify.
+
 v1.0:
 - New commands `djvu-revert-buffer', `djvu-re-search-forward',
   `djvu-re-search-forward-continue', `djvu-history-backward',
@@ -172,13 +176,5 @@ v1.0:
 - Shared annotations buffer.
 
 - Font locking.
-
-To do:
-
-- Use uniquify instead of `generate-new-buffer' if we visit multiple
-  djvu documents in different directories but with the same nondirectory
-  file name.  However, uniquify's usual machinery based on advicing
-  `create-file-buffer' does not work for us because we never visit a file
-  in the ordinary emacs sense.
 </pre>
 </body>

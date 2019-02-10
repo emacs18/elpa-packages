@@ -29,17 +29,24 @@ this function to install key bindings, installed bindings are
 "repeatable" where it makes sense so that you can for example hit
 M-s e j s s s a % to reactive the last search, go to the next match
 three times, then go back to the first match in the current buffer,
-and finally invoke query-replace.
+and finally invoke `el-search-query-replace'.
 
-Here is a complete list of key bindings installed when
+It follows a complete list of key bindings installed when
 you call
+
   (el-search-install-shift-bindings)
+
 or
+
   (el-search-install-bindings-under-prefix [(meta ?s) ?e])
 
-respectively:
+respectively.  If you don't want to install any key bindings, you
+at least want to remember the command name "el-search-pattern" or
+its alias "el-search" to get a start, and that C-h will give you
+access to some help commands; among other things C-h b listing the
+relevant key bindings for controlling a search.
 
-  C-S, M-s e s (el-search-pattern)
+  C-S, M-s e s (`el-search-pattern')
     Start a search in the current buffer/go to the next match.
 
     While searching, the searched buffer is current (not the
@@ -49,10 +56,16 @@ respectively:
     hit RET to exit or C-g to abort and jump back to where you
     started.
 
-  C-R, M-s e r (el-search-pattern-backward)
+  C-h (aka the `help-char')
+
+    C-h offers access to some help commands special to el-search
+    when a search is active.  Among other things C-h b (or ?) gives
+    you a list of bindings to control the search.
+
+  C-R, M-s e r (`el-search-pattern-backward')
     Search backward.
 
-  C-%, M-s e % (el-search-query-replace)
+  C-%, M-s e % (`el-search-query-replace')
     Do a query-replace.
 
   M-x el-search-directory
@@ -60,26 +73,26 @@ respectively:
     Emacs-Lisp files in that directory.  With prefix arg,
     recursively search files in subdirectories.
 
-  C-S, M-s e s in Dired (el-search-dired-marked-files)
+  C-S, M-s e s in Dired (`el-search-dired-marked-files')
     Like above but uses the marked files and directories.
 
-  C-S, M-s e s in Ibuffer (el-search-ibuffer-marked-buffers)
+  C-S, M-s e s in Ibuffer (`el-search-ibuffer-marked-buffers')
     Search marked buffers in *Ibuffer*.
 
-  C-O, M-s e o (el-search-occur)
+  C-O, M-s e o (`el-search-occur')
     Pop up an occur buffer for the current search.
 
   C-O or M-RET (from a search pattern prompt)
     Execute this search command as occur.
 
-  C-N, M-s e n (el-search-continue-in-next-buffer)
+  C-N, M-s e n (`el-search-continue-in-next-buffer')
     Skip over current buffer or file.
 
-  C-D, M-s e d (el-search-skip-directory)
+  C-D, M-s e d (`el-search-skip-directory')
     Prompt for a directory name and skip all subsequent files
     located under this directory.
 
-  C-A, M-s e a, M-s e < (el-search-from-beginning)
+  C-A, M-s e a, M-s e < (`el-search-from-beginning')
     Go back to the first match in this buffer or (with positive
     prefix arg) completely restart the current search from the
     first file or buffer.
@@ -87,7 +100,7 @@ respectively:
     With negative prefix arg, or with >, go to the last match in
     the current buffer.
 
-  C-J, M-s e j (el-search-jump-to-search-head)
+  C-J, M-s e j (`el-search-jump-to-search-head')
     Resume the last search from the position of the last visited
     match.
     With prefix arg 0, resume from the position of the match
@@ -98,13 +111,13 @@ respectively:
     With a plain C-u prefix arg, prompt for a former search to
     resume.
 
-  C-S-next, v   when search is active (el-search-scroll-down)
-  C-S-prior, V  when search is active (el-search-scroll-up)
+  C-S-next, v   when search is active (`el-search-scroll-down')
+  C-S-prior, V  when search is active (`el-search-scroll-up')
     Scrolling by matches: Select the first match after
     `window-end', or select the first match before `window-start',
     respectively.
 
-  C-H, M-s e h (el-search-this-sexp)
+  C-H, M-s e h (`el-search-this-sexp')
     Grab the symbol or sexp under point and initiate an el-search
     for other occurrences.
 
@@ -375,8 +388,6 @@ Known Limitations and Bugs
 
 
 TODO:
-
-- Add a help command that can be called while searching.
 
 - Make searching work in comments, too? (->
   `parse-sexp-ignore-comments').  Related: should the pattern
