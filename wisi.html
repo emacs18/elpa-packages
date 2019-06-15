@@ -23,18 +23,20 @@
 
             <div class="container">
 <h2 class="package">wisi</h2><dl><dt>Description</dt><dd>Utilities for implementing an indentation/navigation engine using a generalized LALR parser</dd>
-<dt>Latest</dt> <dd><a href="wisi-2.0.1.tar">wisi-2.0.1.tar</a>, 2018-Dec-31, 1.54MB</dd>
+<dt>Latest</dt> <dd><a href="wisi-2.1.0.tar">wisi-2.1.0.tar</a>, 2019-Jun-15, 1.60MB</dd>
 <dt>Maintainer</dt> <dd>Stephen Leake &lt;stephen_leake@stephe-leake.org></dd>
-<dt>Home page</dt> <dd><a href="http://www.nongnu.org/ada-mode/wisi/wisi.html">http://www.nongnu.org/ada-mode/wisi/wisi.html</a></dd>
+<dt>Home page</dt> <dd><a href="http://stephe-leake.org/ada/wisitoken.html">http://stephe-leake.org/ada/wisitoken.html</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/wisi">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/wisi">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">wisi</span> RET</pre><h2>Full description</h2><pre>
-Emacs wisi package 2.0.0
+Emacs wisi package 2.1.0
 
 The wisi package provides utilities for using generalized LALR parsers
 (in elisp or external processes) to do indentation, fontification, and
 navigation. See ada-mode for an example of its use.
 
+It also provides wisitoken-parse_table-mode, for navigating the
+diagnostic parse tables output by wisitoken-bnf-generate.
 
 
 </pre>
@@ -48,6 +50,19 @@ Please send wisi bug reports to bug-gnu-emacs@gnu.org, with
 'wisi' in the subject. If possible, use M-x report-emacs-bug.
 
 
+* wisi 2.1.0
+21 Mar 2019
+
+** Add support for partial parsing; useful in very large files. Files
+   larger than wisi-partial-parse-threshold (default 100_001) will be
+   parsed partially.
+
+** Miscellaneous speed-ups in the Ada code; 'pragma Inline', better use of Ada tasks.
+
+** Better error correction in the Ada process parser; insert minimimal
+  tokens to complete a statement/declaration before or after the error
+  point.
+
 * wisi 2.0.1
 8 Dec 2018
 
