@@ -63,7 +63,7 @@
 ;;; Code:
 
 (require 'avy)
-(require 'posframe)
+;; (require 'posframe)
 
 (defgroup frog-menu nil
   "Quickly pick items from ad hoc menus."

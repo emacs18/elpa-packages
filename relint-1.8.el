@@ -80,7 +80,7 @@
 
 ;;; Code:
 
-(require 'xr)
+;; (require 'xr)
 (require 'compile)
 (require 'cl-lib)
 
