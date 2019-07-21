@@ -17,19 +17,19 @@
 
             <div class="header small">
                 <div class="container">
-                    <h1>GNU ELPA - ada-mode</h1>
+                    <h1><a href="index.html">GNU ELPA</a> - ada-mode</h1>
                 </div>
             </div>
 
             <div class="container">
 <h2 class="package">ada-mode</h2><dl><dt>Description</dt><dd>major-mode for editing Ada sources</dd>
-<dt>Latest</dt> <dd><a href="ada-mode-6.1.0.tar">ada-mode-6.1.0.tar</a>, 2019-Jun-15, 5.94MB</dd>
+<dt>Latest</dt> <dd><a href="ada-mode-6.1.1.tar">ada-mode-6.1.1.tar</a>, 2019-Jul-20, 6.20&nbsp;MiB</dd>
 <dt>Maintainer</dt> <dd>Stephen Leake &lt;stephen_leake@stephe-leake.org></dd>
 <dt>Home page</dt> <dd><a href="http://www.nongnu.org/ada-mode/">http://www.nongnu.org/ada-mode/</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/ada-mode">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/ada-mode">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">ada-mode</span> RET</pre><h2>Full description</h2><pre>
-Emacs Ada mode version 6.1.0
+Emacs Ada mode version 6.1.1
 
 Ada mode provides auto-casing, fontification, navigation, and
 indentation for Ada source code files.
@@ -71,10 +71,29 @@ GNU Emacs Ada mode NEWS -- history of user-visible changes.
 Copyright (C) 2018 Free Software Foundation, Inc.
 See the end of the file for license conditions.
 
-Please send wisi bug reports to bug-gnu-emacs@gnu.org, with
+Please send ada-mode bug reports to bug-gnu-emacs@gnu.org, with
 'ada-mode' in the subject. If possible, use M-x report-emacs-bug.
 
 
+* Ada Mode
+11 Jul 2019
+
+** parser Ada language protocol version 1
+** parser gpr language protocol version 1
+
+** ada-auto-case can now take the value `not-upper-case'; typed words
+   that are all upper case are not adjusted.
+
+** which-function-mode in large Ada buffers now uses partial parse;
+   the new user variable `ada-which-func-parse-size' sets the minimum
+   region to parse, centered on point. It should be set to the largest
+   subprogram size that parses in an acceptable time.
+
+** gpr-mode supports new gpr syntax "at n" in an attribute specification.
+
+** The ada-mode xref backend now includes object names in the local
+   file name completion table.
+
 * Ada mode 6.1.0
 21 Mar 2019
 
@@ -158,7 +177,8 @@ Please send wisi bug reports to bug-gnu-emacs@gnu.org, with
 ** new user command: ada-refresh-prj-file. Useful when the project
    file has been edited.
 
-** Implement an xref backend for Ada, using gpr-query. See (info "(emacs) Xref").
+** Implement an xref backend for Ada, using gpr-query. See (info
+   "(emacs) Xref").
 
 ** The various "find other file" commands assume the use of the Gnu
    ELPA package other-frame-window; they no longer provide "other
@@ -214,7 +234,7 @@ Please send wisi bug reports to bug-gnu-emacs@gnu.org, with
    lines relative to start of expression. Otherwise, indent relative
    to previous line. Default nil.
 
-** xref-ada allows entering an identifier to search for without
+** xref-ada allows entering an identifier to search for with
    completion. The search is only in the current file.
 
 ** ada-show-references, ada-show-local-references now take an 'append'
