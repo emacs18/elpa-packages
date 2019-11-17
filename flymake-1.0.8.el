@@ -317,7 +317,7 @@ TYPE is a key to symbol and TEXT is a description of the problem
 detected in this region.  DATA is any object that the caller
 wishes to attach to the created diagnostic for later retrieval.
 
-OVERLAY-PROPERTIES is an an alist of properties attached to the
+OVERLAY-PROPERTIES is an alist of properties attached to the
 created diagnostic, overriding the default properties and any
 properties of `flymake-overlay-control' of the diagnostic's
 type."
@@ -358,7 +358,7 @@ diagnostics at BEG."
 (cl-defun flymake--overlays (&key beg end filter compare key)
   "Get flymake-related overlays.
 If BEG is non-nil and END is nil, consider only `overlays-at'
-BEG. Otherwise consider `overlays-in' the region comprised by BEG
+BEG.  Otherwise consider `overlays-in' the region comprised by BEG
 and END, defaulting to the whole buffer.  Remove all that do not
 verify FILTER, a function, and sort them by COMPARE (using KEY)."
   (save-restriction
@@ -498,7 +498,7 @@ this buffer.  To reset the list of disabled backends, turn
 `flymake-start' with a prefix argument.
 
 If the function returns, Flymake considers the backend to be
-\"running\". If it has not done so already, the backend is
+\"running\".  If it has not done so already, the backend is
 expected to call the function REPORT-FN with a single argument
 REPORT-ACTION also followed by an optional list of keyword-value
 pairs in the form (:REPORT-KEY VALUE :REPORT-KEY2 VALUE2...).
@@ -513,8 +513,8 @@ Currently accepted values for REPORT-ACTION are:
   A backend may call REPORT-FN repeatedly in this manner, but
   only until Flymake considers that the most recently requested
   buffer check is now obsolete because, say, buffer contents have
-  changed in the meantime. The backend is only given notice of
-  this via a renewed call to the backend function. Thus, to
+  changed in the meantime.  The backend is only given notice of
+  this via a renewed call to the backend function.  Thus, to
   prevent making obsolete reports and wasting resources, backend
   functions should first cancel any ongoing processing from
   previous calls.
@@ -545,7 +545,7 @@ Currently accepted REPORT-KEY arguments are:
 (defvar flymake-diagnostic-types-alist '() "")
 (make-obsolete-variable
  'flymake-diagnostic-types-alist
- "Set properties on the diagnostic symbols instead. See Info
+ "Set properties on the diagnostic symbols instead.  See Info
 Node `(Flymake)Flymake error types'"
  "27.1")
 
@@ -553,16 +553,19 @@ Node `(Flymake)Flymake error types'"
 (put 'flymake-error 'flymake-bitmap 'flymake-error-bitmap)
 (put 'flymake-error 'severity (warning-numeric-level :error))
 (put 'flymake-error 'mode-line-face 'compilation-error)
+(put 'flymake-error 'flymake-type-name "error")
 
 (put 'flymake-warning 'face 'flymake-warning)
 (put 'flymake-warning 'flymake-bitmap 'flymake-warning-bitmap)
 (put 'flymake-warning 'severity (warning-numeric-level :warning))
 (put 'flymake-warning 'mode-line-face 'compilation-warning)
+(put 'flymake-warning 'flymake-type-name "warning")
 
 (put 'flymake-note 'face 'flymake-note)
 (put 'flymake-note 'flymake-bitmap 'flymake-note-bitmap)
 (put 'flymake-note 'severity (warning-numeric-level :debug))
 (put 'flymake-note 'mode-line-face 'compilation-info)
+(put 'flymake-note 'flymake-type-name "note")
 
 (defun flymake--lookup-type-property (type prop &optional default)
   "Look up PROP for diagnostic TYPE.
@@ -652,7 +655,9 @@ associated `flymake-category' return DEFAULT."
              (flymake-diagnostics pos)
              "\n"))))
       (default-maybe 'severity (warning-numeric-level :error))
-      (default-maybe 'priority (+ 100 (overlay-get ov 'severity))))
+      ;; Use (PRIMARY . SECONDARY) priority, to avoid clashing with
+      ;; `region' face, for example (bug#34022).
+      (default-maybe 'priority (cons nil (+ 40 (overlay-get ov 'severity)))))
     ;; Some properties can't be overridden.
     ;;
     (overlay-put ov 'evaporate t)
@@ -666,12 +671,12 @@ associated `flymake-category' return DEFAULT."
 (defvar-local flymake--backend-state nil
   "Buffer-local hash table of a Flymake backend's state.
 The keys to this hash table are functions as found in
-`flymake-diagnostic-functions'. The values are structures
+`flymake-diagnostic-functions'.  The values are structures
 of the type `flymake--backend-state', with these slots:
 
 `running', a symbol to keep track of a backend's replies via its
-REPORT-FN argument. A backend is running if this key is
-present. If nil, Flymake isn't expecting any replies from the
+REPORT-FN argument.  A backend is running if this key is
+present.  If nil, Flymake isn't expecting any replies from the
 backend.
 
 `diags', a (possibly empty) list of recent diagnostic objects
@@ -700,7 +705,7 @@ backend is operating normally.")
        ,@body)))
 
 (defun flymake-is-running ()
-  "Tell if Flymake has running backends in this buffer"
+  "Tell if Flymake has running backends in this buffer."
   (flymake-running-backends))
 
 ;; FIXME: clone of `isearch-intesects-p'! Make this an util.
@@ -749,7 +754,10 @@ report applies to that region."
                                   (format "Unknown action %S" report-action))
         (flymake-error "Expected report, but got unknown key %s" report-action))
        (t
-        (setq new-diags report-action)
+        (setq new-diags
+              (cl-remove-if-not
+               (lambda (diag) (eq (flymake--diag-buffer diag) (current-buffer)))
+               report-action))
         (save-restriction
           (widen)
           ;; Before adding to backend's diagnostic list, decide if
@@ -804,7 +812,7 @@ different runs of the same backend."
 
 (defun flymake--collect (fn &optional message-prefix)
   "Collect Flymake backends matching FN.
-If MESSAGE-PREFIX, echo a message using that prefix"
+If MESSAGE-PREFIX, echo a message using that prefix."
   (unless flymake--backend-state
     (user-error "Flymake is not initialized"))
   (let (retval)
@@ -979,7 +987,7 @@ buffer happens via the special hook
 
 Some backends may take longer than others to respond or complete,
 and some may decide to disable themselves if they are not
-suitable for the current buffer. The commands
+suitable for the current buffer.  The commands
 `flymake-running-backends', `flymake-disabled-backends' and
 `flymake-reporting-backends' summarize the situation, as does the
 special *Flymake log* buffer."  :group 'flymake :lighter
@@ -1331,7 +1339,9 @@ POS can be a buffer position or a button"
                                     'severity (warning-numeric-level :error)))
                    `[,(format "%s" line)
                      ,(format "%s" col)
-                     ,(propertize (format "%s" type)
+                     ,(propertize (format "%s"
+                                          (flymake--lookup-type-property
+                                           type 'flymake-type-name type))
                                   'face (flymake--lookup-type-property
                                          type 'mode-line-face 'flymake-error))
                      (,(format "%s" (flymake--diag-text diag))
