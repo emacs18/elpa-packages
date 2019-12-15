@@ -567,8 +567,14 @@ class declarations.")
            "intern"
            ;; Python 3:
            "ascii" "breakpoint" "bytearray" "bytes" "exec"
-           ;; Extra:
-           "__all__" "__doc__" "__name__" "__package__")
+           ;; Special attributes:
+           ;; https://docs.python.org/3/reference/datamodel.html
+           "__annotations__" "__closure__" "__code__"
+           "__defaults__" "__dict__" "__doc__" "__globals__"
+           "__kwdefaults__" "__name__" "__module__" "__package__"
+           "__qualname__"
+           ;; Extras:
+           "__all__")
           symbol-end) . font-lock-builtin-face))
   "Font lock keywords to use in python-mode for level 2 decoration.
 
@@ -3664,7 +3670,7 @@ using that one instead of current buffer's process."
           (save-excursion
             (if (not (re-search-backward
                       (python-rx
-                       (or whitespace open-paren close-paren string-delimiter))
+                       (or whitespace open-paren close-paren string-delimiter simple-operator))
                       line-start
                       t 1))
                 line-start
@@ -3731,9 +3737,9 @@ Pdbtracking would open the file for current stack frame found in pdb output by
 `python-pdbtrack-stacktrace-info-regexp' and add overlay arrow in currently
 inspected line in that file.
 
-After command listed in `python-pdbtrack-continue-command' or
-`python-pdbtrack-exit-command' is sent to pdb, pdbtracking session is
-considered over.  Overlay arrow will be removed from currentry tracked
+After the command listed in `python-pdbtrack-continue-command' or
+`python-pdbtrack-exit-command' is sent to pdb, the pdbtracking session is
+considered over.  The overlay arrow will be removed from the currently tracked
 buffer.  Additionally, if `python-pdbtrack-kill-buffers' is non-nil, all
 files opened by pdbtracking will be killed."
   :type 'boolean
@@ -3826,10 +3832,10 @@ Returns the tracked buffer."
 
 (defun python-pdbtrack-unset-tracked-buffer ()
   "Untrack currently tracked buffer."
-  (when python-pdbtrack-tracked-buffer
+  (when (buffer-live-p python-pdbtrack-tracked-buffer)
     (with-current-buffer python-pdbtrack-tracked-buffer
-      (set-marker overlay-arrow-position nil))
-    (setq python-pdbtrack-tracked-buffer nil)))
+      (set-marker overlay-arrow-position nil)))
+  (setq python-pdbtrack-tracked-buffer nil))
 
 (defun python-pdbtrack-tracking-finish ()
   "Finish tracking."
@@ -3850,8 +3856,8 @@ Returns the tracked buffer."
 
 (defun python-pdbtrack-comint-input-filter-function (input)
   "Finish tracking session depending on command in INPUT.
-Commands that must finish tracking session is listed in
-`python-pdbtrack-untracking-commands'."
+Commands that must finish the tracking session are listed in
+`python-pdbtrack-exit-command'."
   (when (and python-pdbtrack-tracked-buffer
              ;; Empty input is sent by C-d or `comint-send-eof'
              (or (string-empty-p input)

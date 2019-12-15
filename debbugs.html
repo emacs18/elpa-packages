@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">debbugs</h2><dl><dt>Description</dt><dd>SOAP library to access debbugs servers</dd>
-<dt>Latest</dt> <dd><a href="debbugs-0.20.tar">debbugs-0.20.tar</a>, 2019-Nov-17,  320&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="debbugs-0.21.tar">debbugs-0.21.tar</a>, 2019-Dec-14,  320&nbsp;KiB</dd>
 <dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/debbugs.html">http://elpa.gnu.org/packages/debbugs.html</a></dd>
 <dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/debbugs">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/debbugs">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
@@ -37,9 +37,13 @@ the command `M-x debbugs-gnu-patches' lists bugs containing a patch.
 In order to show bugs with known numbers, `M-x debbugs-gnu-bugs' could
 be used.
 
+Bugs can be marked by a local tag.  All bugs marked like this will be
+shown via `M-x debbugs-gnu-tagged'.
+
 If you prefer the listing of bugs as TODO items of `org-mode', you
 could use the commands `M-x debbugs-org', `M-x debbugs-org-search',
-`M-x debbugs-org-patches' and `M-x debbugs-org-bugs' instead.
+`M-x debbugs-org-patches', `M-x debbugs-org-bugs' and `M-x
+debbugs-org-tagged' instead.
 
 A minor mode `debbugs-browse-mode' let you browse URLs to the GNU Bug
 Tracker as well as bug identifiers prepared for `bug-reference-mode'.
