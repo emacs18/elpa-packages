@@ -329,6 +329,7 @@ It returns a file name which can be used directly as argument of
     ;; Shell interaction
     (define-key map "\C-c\C-p" 'run-python)
     (define-key map "\C-c\C-s" 'python-shell-send-string)
+    (define-key map "\C-c\C-e" 'python-shell-send-statement)
     (define-key map "\C-c\C-r" 'python-shell-send-region)
     (define-key map "\C-\M-x" 'python-shell-send-defun)
     (define-key map "\C-c\C-c" 'python-shell-send-buffer)
@@ -368,6 +369,8 @@ It returns a file name which can be used directly as argument of
          :help "Eval string in inferior Python session"]
         ["Eval buffer" python-shell-send-buffer
          :help "Eval buffer in inferior Python session"]
+        ["Eval statement" python-shell-send-statement
+         :help "Eval statement in inferior Python session"]
         ["Eval region" python-shell-send-region
          :help "Eval region in inferior Python session"]
         ["Eval defun" python-shell-send-defun
@@ -1990,7 +1993,7 @@ position, else returns nil."
     ;; IPython prompts activated, this adds some safeguard for that.
     "In : " "\\.\\.\\.: ")
   "List of regular expressions matching input prompts."
-  :type '(repeat string)
+  :type '(repeat regexp)
   :version "24.4")
 
 (defcustom python-shell-prompt-output-regexps
@@ -1998,28 +2001,28 @@ position, else returns nil."
     "Out\\[[0-9]+\\]: "                 ; IPython
     "Out :")                            ; ipdb safeguard
   "List of regular expressions matching output prompts."
-  :type '(repeat string)
+  :type '(repeat regexp)
   :version "24.4")
 
 (defcustom python-shell-prompt-regexp ">>> "
   "Regular expression matching top level input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'string)
+  :type 'regexp)
 
 (defcustom python-shell-prompt-block-regexp "\\.\\.\\.:? "
   "Regular expression matching block input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'string)
+  :type 'regexp)
 
 (defcustom python-shell-prompt-output-regexp ""
   "Regular expression matching output prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'string)
+  :type 'regexp)
 
 (defcustom python-shell-prompt-pdb-regexp "[(<]*[Ii]?[Pp]db[>)]+ "
   "Regular expression matching pdb input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'string)
+  :type 'regexp)
 
 (define-obsolete-variable-alias
   'python-shell-enable-font-lock 'python-shell-font-lock-enable "25.1")
@@ -2108,7 +2111,7 @@ virtualenv."
           "(" (group (1+ digit)) ")" (1+ (not (any "("))) "()")
      1 2))
   "`compilation-error-regexp-alist' for inferior Python."
-  :type '(alist string)
+  :type '(alist regexp)
   :group 'python)
 
 (defmacro python-shell--add-to-path-with-priority (pathvar paths)
@@ -3162,6 +3165,25 @@ process running; defaults to t when called interactively."
     (message "Sent: %s..." (match-string 1 original-string))
     (python-shell-send-string string process)))
 
+(defun python-shell-send-statement (&optional send-main msg)
+  "Send the statement at point to inferior Python process.
+The statement is delimited by `python-nav-beginning-of-statement' and
+`python-nav-end-of-statement', but if the region  is active, the text
+in the region is sent instead via `python-shell-send-region'.
+Optional argument SEND-MAIN, if non-nil, means allow execution of code
+inside blocks delimited by \"if __name__ == \\='__main__\\=':\".
+Interactively, SEND-MAIN is the prefix argument.
+Optional argument MSG, if non-nil, forces display of a user-friendly
+message if there's no process running; it defaults to t when called
+interactively."
+  (interactive (list current-prefix-arg t))
+  (if (region-active-p)
+      (python-shell-send-region (region-beginning) (region-end) send-main msg)
+    (python-shell-send-region
+     (save-excursion (python-nav-beginning-of-statement))
+     (save-excursion (python-nav-end-of-statement))
+     send-main msg)))
+
 (defun python-shell-send-buffer (&optional send-main msg)
   "Send the entire buffer to inferior Python process.
 When optional argument SEND-MAIN is non-nil, allow execution of
@@ -3763,7 +3785,7 @@ the top stack frame has been reached.
 
 Filename is expected in the first parenthesized expression.
 Line number is expected in the second parenthesized expression."
-  :type 'string
+  :type 'regexp
   :version "27.1"
   :safe 'stringp)
 
