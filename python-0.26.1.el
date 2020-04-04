@@ -1993,7 +1993,7 @@ position, else returns nil."
     ;; IPython prompts activated, this adds some safeguard for that.
     "In : " "\\.\\.\\.: ")
   "List of regular expressions matching input prompts."
-  :type '(repeat regexp)
+  :type '(repeat string)
   :version "24.4")
 
 (defcustom python-shell-prompt-output-regexps
@@ -2001,28 +2001,28 @@ position, else returns nil."
     "Out\\[[0-9]+\\]: "                 ; IPython
     "Out :")                            ; ipdb safeguard
   "List of regular expressions matching output prompts."
-  :type '(repeat regexp)
+  :type '(repeat string)
   :version "24.4")
 
 (defcustom python-shell-prompt-regexp ">>> "
   "Regular expression matching top level input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'regexp)
+  :type 'string)
 
 (defcustom python-shell-prompt-block-regexp "\\.\\.\\.:? "
   "Regular expression matching block input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'regexp)
+  :type 'string)
 
 (defcustom python-shell-prompt-output-regexp ""
   "Regular expression matching output prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'regexp)
+  :type 'string)
 
 (defcustom python-shell-prompt-pdb-regexp "[(<]*[Ii]?[Pp]db[>)]+ "
   "Regular expression matching pdb input prompt of Python shell.
 It should not contain a caret (^) at the beginning."
-  :type 'regexp)
+  :type 'string)
 
 (define-obsolete-variable-alias
   'python-shell-enable-font-lock 'python-shell-font-lock-enable "25.1")
@@ -2111,7 +2111,7 @@ virtualenv."
           "(" (group (1+ digit)) ")" (1+ (not (any "("))) "()")
      1 2))
   "`compilation-error-regexp-alist' for inferior Python."
-  :type '(alist regexp)
+  :type '(alist string)
   :group 'python)
 
 (defmacro python-shell--add-to-path-with-priority (pathvar paths)
@@ -3785,7 +3785,7 @@ the top stack frame has been reached.
 
 Filename is expected in the first parenthesized expression.
 Line number is expected in the second parenthesized expression."
-  :type 'regexp
+  :type 'string
   :version "27.1"
   :safe 'stringp)
 
@@ -5544,10 +5544,8 @@ REPORT-FN is Flymake's callback function."
       ;; Emacs<25
       (set (make-local-variable 'eldoc-documentation-function)
            #'python-eldoc-function)
-    (if (boundp 'eldoc-documentation-functions)
-        (add-hook 'eldoc-documentation-functions #'python-eldoc-function nil t)
-      (add-function :before-until (local 'eldoc-documentation-function)
-                    #'python-eldoc-function)))
+    (add-function :before-until (local 'eldoc-documentation-function)
+                  #'python-eldoc-function))
 
   (add-to-list
    'hs-special-modes-alist
