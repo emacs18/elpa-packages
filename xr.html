@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - xr</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - xr</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">xr</h2><dl><dt>Description</dt><dd>Convert string regexp to rx notation</dd>
+<dt>Latest</dt> <dd><a href="xr-1.19.tar">xr-1.19.tar</a>, 2020-Sep-20,  120&nbsp;KiB</dd>
+<dt>Home page</dt> <dd><a href="https://github.com/mattiase/xr">https://github.com/mattiase/xr</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/xr">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/xr">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">xr</span> RET</pre><h2>Full description</h2><pre>
+                xr -- Emacs regexp parser and analyser
+                ======================================
+
+XR converts Emacs regular expressions to the structured rx form, thus
+being an inverse of rx. It can also find mistakes and questionable
+constructs inside regexp strings.
+
+It can be useful for:
+
+- Migrating existing code to rx form
+- Understanding what a regexp string really means
+- Finding errors in regexp strings
+
+It can also parse and find mistakes in skip-sets, the regexp-like
+arguments to skip-chars-forward and skip-chars-backward.
+
+The xr package can be used interactively or by other code as a library.
+
+* Example
+
+  (xr-pp "\\`\\(?:[^^]\\|\\^\\(?: \\*\\|\\[\\)\\)")
+
+  outputs
+
+  (seq bos 
+       (or (not (any "^"))
+           (seq "^"
+                (or " *" "["))))
+
+* Installation
+
+  From GNU ELPA (https://elpa.gnu.org/packages/xr.html):
+
+    M-x package-install RET xr RET
+
+* Interface
+
+  Functions parsing regexp strings:
+  
+   xr       --  convert regexp to rx
+   xr-pp    --  convert regexp to rx and pretty-print
+   xr-lint  --  find mistakes in regexp
+  
+  Functions parsing skip sets:
+  
+   xr-skip-set       --  convert skip-set to rx
+   xr-skip-set-pp    --  convert skip-set to rx and pretty-print
+   xr-skip-set-lint  --  find mistakes in skip-set
+  
+  Utility:
+  
+   xr-pp-rx-to-str  --  pretty-print rx expression to string
+  
+* See also
+
+  The relint package (https://elpa.gnu.org/packages/relint.html) uses xr
+  to find regexp mistakes in elisp code.
+
+  The lex package (https://elpa.gnu.org/packages/lex.html), a lexical
+  analyser generator, provides the lex-parse-re function which
+  translates regexps to rx, but does not attempt to handle all the
+  edge cases of Elisp's regexp syntax or pretty-print the result.
+
+  The pcre2el package (https://github.com/joddie/pcre2el), a regexp
+  syntax converter and interactive regexp explainer, can also be used
+  for translating regexps to rx. However, xr is more accurate for this
+  purpose.
+
+</pre>
+<h2>News</h2><pre>
+Version 1.19:
+- Added filename-specific checks; new PURPOSE argument to `xr-lint'
+- Warn about wrapped subsumption, like \(A*C[AB]*\)+
+- Improved scope and accuracy of all subsumption checks
+- Warn about anchors in conflict with other expressions, like \(A$\)B
+Version 1.18:
+- Fix test broken in Emacs 26
+Version 1.17:
+- Performance improvements
+Version 1.16:
+- Translate [^\n] into nonl
+- Better character class subset/superset analysis
+- More accurate repetition subsumption check
+- Use text quoting for messages
+Version 1.15:
+- Warn about subsuming repetitions in sequence, like [AB]+A*
+Version 1.14:
+- Warn about repetition of grouped repetition
+Version 1.13:
+- More robust pretty-printing, especially for characters
+- Generate (category CHAR) for unknown categories
+Version 1.12:
+- Warn about branch subsumption, like [AB]\|A
+Version 1.11:
+- Warn about repetition of empty-matching expressions
+- Detect `-' not first or last in char alternatives or skip-sets
+- Stronger ad-hoc [...] check in skip-sets
+Version 1.10:
+- Warn about [[:class:]] in skip-sets
+- Warn about two-character ranges like [*-+] in regexps
+Version 1.9:
+- Don't complain about [z-a] and [^z-a] specifically
+- Improved skip set checks
+Version 1.8:
+- Improved skip set checks
+Version 1.7:
+- Parse skip-sets, adding `xr-skip-set', `xr-skip-set-pp' and
+  `xr-skip-set-lint'
+- Ad-hoc check for misplaced `]' in regexps
+Version 1.6:
+- Detect duplicated branches like A\|A
+Version 1.5:
+- Add dialect option to `xr' and `xr-pp'
+- Negative empty sets, [^z-a], now become `anything'
+Version 1.4:
+- Detect overlap in character alternatives
+Version 1.3:
+- Improved xr-lint warnings
+Version 1.2:
+- `xr-lint' added
+</pre>
+</body>

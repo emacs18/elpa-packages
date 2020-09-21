@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - sm-c-mode</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - sm-c-mode</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">sm-c-mode</h2><dl><dt>Description</dt><dd>C major mode based on SMIE</dd>
+<dt>Latest</dt> <dd><a href="sm-c-mode-1.0.el">sm-c-mode-1.0.el</a>, 2020-Sep-20, 37.6&nbsp;KiB</dd>
+<dt>Home page</dt> <dd><a href="http://elpa.gnu.org/packages/sm-c-mode.html">http://elpa.gnu.org/packages/sm-c-mode.html</a></dd>
+<dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/sm-c-mode">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/sm-c-mode">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">sm-c-mode</span> RET</pre><h2>Full description</h2><pre>
+This started as an experiment to see concretely where&amp;how SMIE falls down
+when trying to handle a language like C, to get an idea of maybe what it
+would take to change SMIE to better support C-style syntax.
+
+So, this does provide "SMIE-based indentation for C" and might even do it OK
+in practice, but it really doesn't benefit much from SMIE:
+- it does a lot of its own parsing by hand.
+- its smie-rules-function also does a lot of indentation by hand.
+Hopefully at some point, someone will find a way to extend SMIE such that
+we can handle C without having to constantly work around SMIE, e.g.
+it'd be nice to hook sm-c--while-to-do, sm-c--else-to-if, sm-c--boi,
+sm-c--boe, ... into SMIE at some level.
+
+This is not designed to supplant Emacs's built-in c-mode, which does a more
+thorough job.  It was not even meant to be used by anyone, really, but
+I finally decided to release this because some users pointed out that on
+slow machines it can be a worthy lightweigth alternative.
+
+Known limitations:
+
+- This mode makes no attempt to try and handle sanely K&amp;R style function
+  definitions (i.e. where the type of arguments is given between the list of
+  arguments and the body).  There are 2 good reasons for that: this old
+  syntax sucks and should be laid to rest, and it'd be a lot of extra work
+  to try and handle it.
+</pre>
+</body>

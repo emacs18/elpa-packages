@@ -1,6 +1,6 @@
 ;;; json-mode.el --- Major mode for editing JSON files  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015-2016 Free Software Foundation, Inc.
+;; Copyright (C) 2015-2020 Free Software Foundation, Inc.
 
 ;; Author: Simen Heggestøyl <simenheg@gmail.com>
 ;; Maintainer: Simen Heggestøyl <simenheg@gmail.com>
@@ -78,9 +78,12 @@
     (modify-syntax-entry ?\n ">" st)
     st))
 
+(defconst json-mode--keywords '("true" "false" "null")
+  "List of JSON keywords.")
+
 (defvar json-mode-font-lock-keywords
   `(;; Constants
-    (,(concat "\\<" (regexp-opt json-keywords) "\\>")
+    (,(concat "\\<" (regexp-opt json-mode--keywords) "\\>")
      (0 font-lock-constant-face))))
 
 (defun json-mode--string-is-object-name-p (startpos)
@@ -126,13 +129,13 @@ JSON object members will be sorted alphabetically by their keys."
     (if (use-region-p)
         (funcall
          (if alphabetical
-             'json-pretty-print-ordered
-           'json-pretty-print)
+             #'json-pretty-print-ordered
+           #'json-pretty-print)
          (region-beginning) (region-end))
       (funcall
        (if alphabetical
-           'json-pretty-print-buffer-ordered
-         'json-pretty-print-buffer)))))
+           #'json-pretty-print-buffer-ordered
+         #'json-pretty-print-buffer)))))
 
 (defun json-mode-show-path ()
   "Show the path to the JSON value under point.
@@ -149,6 +152,15 @@ The value is also copied to the kill ring."
           (message formatted-path)
           (kill-new formatted-path))
       (message "Not a JSON value"))))
+
+(defun json--which-func ()
+  (let ((path (plist-get (json-path-to-position (point)) :path)))
+    (when path
+      ;; There's not much space in the modeline, so this needs
+      ;; to be more compact than what `json-mode--format-path' produces.
+      ;; FIXME: Even in this more compact form it can easily get too long
+      ;; for comfort.  Add some way to shorten it.
+      (mapconcat (lambda (key) (format "%s" key)) path ";"))))
 
 (defun json-mode--format-path (path)
   "Return PATH formatted as a JSON data selector.
@@ -170,9 +182,51 @@ integers."
       . json-font-lock-syntactic-face-function)))
   ;; JSON has no comment syntax, but we set this to keep SMIE happy.
   ;; Also, some JSON extensions allow comments.
+  (add-hook 'which-func-functions #'json--which-func nil t)
   (setq-local comment-start "// ")
   (setq-local comment-end "")
   (smie-setup json-mode--smie-grammar #'json-mode--smie-rules))
+
+(defun json--jit-wrap (beg end)
+  (save-excursion
+    (remove-overlays beg end 'json-jit-wrap t)
+    (goto-char beg)
+    (let ((ppss (syntax-ppss beg))
+          (last beg))
+      (while (re-search-forward "[][{},]+" end t)
+        (let* ((pos (match-beginning 0))
+               (closer (memq (char-after pos) '(?\] ?\}))))
+          (setq ppss (parse-partial-sexp last (point) nil nil ppss)
+                last (point))
+          (unless (nth 8 ppss)
+            (let ((s (concat "\n" (make-string
+                                   (* json-mode-indent-level (nth 0 ppss))
+                                   ?\s)))
+                  (ol (make-overlay (1- (point)) (point))))
+              (overlay-put ol 'json-jit-wrap t)
+              (overlay-put ol 'after-string s)
+              (when closer
+                (let ((ol (make-overlay pos (1+ pos))))
+                  (overlay-put ol 'json-jit-wrap t)
+                  (overlay-put ol 'before-string s))))))))))
+
+;; FIXME: On a small json file, this seems to work OK, but
+;; line-based movement is already occasionally very slow.
+;; I haven't dared to try it on a largish json file.
+(define-minor-mode json-jit-wrap-mode
+  "Add virtual newlines."
+  :global nil
+  (if json-jit-wrap-mode
+      (progn
+        ;; Note: this jitter works (almost) character-by-character
+        ;; so doesn't need to round up to while lines (which is great!),
+        ;; but of course, if font-lock is enabled, jit-lock will
+        ;; still end up calling us one whole line at a time :-(
+        (jit-lock-register #'json--jit-wrap)
+        (add-hook 'change-major-mode-hook
+                  (lambda () (json-jit-wrap-mode -1)) nil t))
+    (jit-lock-unregister #'json--jit-wrap)
+    (remove-overlays (point-min) (point-max) 'json-jit-wrap t)))
 
 ;;;; ChangeLog:
 
