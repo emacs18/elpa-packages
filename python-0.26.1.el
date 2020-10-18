@@ -501,6 +501,52 @@ The type returned can be `comment', `string' or `paren'."
         font-lock-string-face)
     font-lock-comment-face))
 
+(defun python--f-string-p (ppss)
+  "Return non-nil if the pos where PPSS was found is inside an f-string."
+  (and (nth 3 ppss)
+       (let ((spos (1- (nth 8 ppss))))
+         (and (memq (char-after spos) '(?f ?F))
+              (or (< (point-min) spos)
+                  (not (memq (char-syntax (char-before spos)) '(?w ?_))))))))
+
+(defun python--font-lock-f-strings (limit)
+  "Mark {...} holes as being code.
+Remove the (presumably `font-lock-string-face') `face' property from
+the {...} holes that appear within f-strings."
+  ;; FIXME: This will fail to properly highlight strings appearing
+  ;; within the {...} of an f-string.
+  ;; We could presumably fix it by running
+  ;; `font-lock-fontify-syntactically-region' (as is done in
+  ;; `sm-c--cpp-fontify-syntactically', for example) after removing
+  ;; the `face' property, but I'm not sure it's worth the effort and
+  ;; the risks.
+  (let ((ppss (syntax-ppss)))
+    (while
+        (progn
+          (while (and (not (python--f-string-p ppss))
+                      (re-search-forward "\\<f['\"]" limit 'move))
+            (setq ppss (syntax-ppss)))
+          (< (point) limit))
+      (cl-assert (python--f-string-p ppss))
+      (let ((send (save-excursion
+                   (goto-char (nth 8 ppss))
+                   (condition-case nil
+                       (progn (let ((forward-sexp-function nil))
+                                (forward-sexp 1))
+                              (min limit (1- (point))))
+                     (scan-error limit)))))
+        (while (re-search-forward "{" send t)
+          (if (eq ?\{ (char-after))
+              (forward-char 1)          ;Just skip over {{
+            (let ((beg (match-beginning 0))
+                  (end (condition-case nil
+                           (progn (up-list 1) (min send (point)))
+                         (scan-error send))))
+              (goto-char end)
+              (put-text-property beg end 'face nil))))
+        (goto-char (min limit (1+ send)))
+        (setq ppss (syntax-ppss))))))
+
 (defvar python-font-lock-keywords-level-1
   `((,(rx symbol-start "def" (1+ space) (group (1+ (or word ?_))))
      (1 font-lock-function-name-face))
@@ -567,7 +613,8 @@ This is the medium decoration level, including everything in
 builtins.")
 
 (defvar python-font-lock-keywords-maximum-decoration
-  `(,@python-font-lock-keywords-level-2
+  `((python--font-lock-f-strings)
+    ,@python-font-lock-keywords-level-2
     ;; Constants
     (,(rx symbol-start
           (or
@@ -575,7 +622,8 @@ builtins.")
            ;; copyright, license, credits, quit and exit are added by the site
            ;; module and they are not intended to be used in programs
            "copyright" "credits" "exit" "license" "quit")
-          symbol-end) . font-lock-constant-face)
+          symbol-end)
+     . font-lock-constant-face)
     ;; Decorators.
     (,(rx line-start (* (any " \t")) (group "@" (1+ (or word ?_))
                                             (0+ "." (1+ (or word ?_)))))
@@ -609,7 +657,8 @@ builtins.")
            ;; OS specific
            "VMSError" "WindowsError"
            )
-          symbol-end) . font-lock-type-face)
+          symbol-end)
+     . font-lock-type-face)
     ;; assignments
     ;; support for a = b = c = 5
     (,(lambda (limit)
@@ -2078,7 +2127,7 @@ virtualenv."
   :group 'python)
 
 (defcustom python-shell-setup-codes nil
-  "List of code run by `python-shell-send-setup-codes'."
+  "List of code run by `python-shell-send-setup-code'."
   :type '(repeat symbol)
   :group 'python)
 
@@ -2378,9 +2427,11 @@ regexps: `python-shell-prompt-regexp',
 
 (defun python-shell-prompt-set-calculated-regexps ()
   "Detect and set input and output prompt regexps.
-Build and set the values for `python-shell-input-prompt-regexp'
-and `python-shell-output-prompt-regexp' using the values from
-`python-shell-prompt-regexp', `python-shell-prompt-block-regexp',
+Build and set the values for
+`python-shell--prompt-calculated-input-regexp' and
+`python-shell--prompt-calculated-output-regexp' using the values
+from `python-shell-prompt-regexp',
+`python-shell-prompt-block-regexp',
 `python-shell-prompt-pdb-regexp',
 `python-shell-prompt-output-regexp',
 `python-shell-prompt-input-regexps',
@@ -2442,7 +2493,7 @@ of `python-shell-buffer-name'."
 
 (defun python-shell-internal-get-process-name ()
   "Calculate the appropriate process name for Internal Python process.
-The name is calculated from `python-shell-global-buffer-name' and
+The name is calculated from `python-shell-buffer-name' and
 the `buffer-name'."
   (format "%s[%s]" python-shell-internal-buffer-name (buffer-name)))
 
@@ -3074,7 +3125,7 @@ Returns the output.  See `python-shell-send-string-no-output'."
 (define-obsolete-function-alias
   'python-send-string 'python-shell-internal-send-string "24.3")
 
-(defun python-shell-buffer-substring (start end &optional nomain)
+(defun python-shell-buffer-substring (start end &optional nomain no-cookie)
   "Send buffer substring from START to END formatted for shell.
 This is a wrapper over `buffer-substring' that takes care of
 different transformations for the code sent to be evaluated in
@@ -3100,12 +3151,13 @@ the python shell:
                               (goto-char start)
                               (python-util-forward-comment 1)
                               (current-indentation))))
-         (fillstr (when (not starts-at-point-min-p)
-                    (concat
-                     (format "# -*- coding: %s -*-\n" encoding)
-                     (make-string
-                      ;; Subtract 2 because of the coding cookie.
-                      (- (line-number-at-pos start) 2) ?\n)))))
+         (fillstr (and (not no-cookie)
+                       (not starts-at-point-min-p)
+                       (concat
+                        (format "# -*- coding: %s -*-\n" encoding)
+                        (make-string
+                         ;; Subtract 2 because of the coding cookie.
+                         (- (line-number-at-pos start) 2) ?\n)))))
     (with-temp-buffer
       (python-mode)
       (when fillstr
@@ -3144,7 +3196,8 @@ the python shell:
            (line-beginning-position) (line-end-position))))
       (buffer-substring-no-properties (point-min) (point-max)))))
 
-(defun python-shell-send-region (start end &optional send-main msg)
+(defun python-shell-send-region (start end &optional send-main msg
+                                       no-cookie)
   "Send the region delimited by START and END to inferior Python process.
 When optional argument SEND-MAIN is non-nil, allow execution of
 code inside blocks delimited by \"if __name__== \\='__main__\\=':\".
@@ -3154,7 +3207,8 @@ non-nil, forces display of a user-friendly message if there's no
 process running; defaults to t when called interactively."
   (interactive
    (list (region-beginning) (region-end) current-prefix-arg t))
-  (let* ((string (python-shell-buffer-substring start end (not send-main)))
+  (let* ((string (python-shell-buffer-substring start end (not send-main)
+                                                no-cookie))
          (process (python-shell-get-process-or-error msg))
          (original-string (buffer-substring-no-properties start end))
          (_ (string-match "\\`\n*\\(.*\\)" original-string)))
@@ -3178,7 +3232,7 @@ interactively."
     (python-shell-send-region
      (save-excursion (python-nav-beginning-of-statement))
      (save-excursion (python-nav-end-of-statement))
-     send-main msg)))
+     send-main msg t)))
 
 (defun python-shell-send-buffer (&optional send-main msg)
   "Send the entire buffer to inferior Python process.
@@ -3200,27 +3254,29 @@ optional argument MSG is non-nil, forces display of a
 user-friendly message if there's no process running; defaults to
 t when called interactively."
   (interactive (list current-prefix-arg t))
-  (save-excursion
-    (python-shell-send-region
-     (progn
-       (end-of-line 1)
-       (while (and (or (python-nav-beginning-of-defun)
-                       (beginning-of-line 1))
-                   (> (current-indentation) 0)))
-       (when (not arg)
-         (while (and
-                 (eq (forward-line -1) 0)
-                 (if (looking-at (python-rx decorator))
-                     t
-                   (forward-line 1)
-                   nil))))
-       (point-marker))
-     (progn
-       (or (python-nav-end-of-defun)
-           (end-of-line 1))
-       (point-marker))
-     nil  ;; noop
-     msg)))
+  (let ((starting-pos (point)))
+    (save-excursion
+      (python-shell-send-region
+       (progn
+         (end-of-line 1)
+         (while (and (or (python-nav-beginning-of-defun)
+                         (beginning-of-line 1))
+                     (> (current-indentation) 0)))
+         (when (not arg)
+           (while (and
+                   (eq (forward-line -1) 0)
+                   (if (looking-at (python-rx decorator))
+                       t
+                     (forward-line 1)
+                     nil))))
+         (point-marker))
+       (progn
+         (goto-char starting-pos)
+         (or (python-nav-end-of-defun)
+             (end-of-line 1))
+         (point-marker))
+       nil ;; noop
+       msg))))
 
 (defun python-shell-send-file (file-name &optional process temp-file-name
                                          delete msg)
@@ -4712,7 +4768,7 @@ customize how labels are formatted."
 (defun python-imenu-create-flat-index (&optional alist prefix)
   "Return flat outline of the current Python buffer for Imenu.
 Optional argument ALIST is the tree to be flattened; when nil
-`python-imenu-build-index' is used with
+`python-imenu-create-index' is used with
 `python-imenu-format-parent-item-jump-label-function'
 `python-imenu-format-parent-item-label-function'
 `python-imenu-format-item-label-function' set to

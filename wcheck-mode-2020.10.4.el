@@ -1,13 +1,13 @@
 ;;; wcheck-mode.el --- General interface for text checkers  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2009-2019  Free Software Foundation, Inc.
+;; Copyright (C) 2009-2020  Free Software Foundation, Inc.
 
 ;; Author: Teemu Likonen <tlikonen@iki.fi>
 ;; Maintainer: Teemu Likonen <tlikonen@iki.fi>
 ;; Created: 2009-07-04
 ;; URL: https://github.com/tlikonen/wcheck-mode
 ;; Keywords: text spell check languages ispell
-;; Version: 2019.6.17
+;; Version: 2020.10.4
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -817,7 +817,7 @@ interactively) then change the global default language."
 
     (wcheck--program-not-configured-error
      (wcheck-mode -1)
-     (message "Language \"%s\": checker program is not configured"
+     (message "Checker program is not configured for language \"%s\""
               (cdr error-data)))))
 
 
@@ -846,7 +846,7 @@ interactively) then change the global default language."
 
       (wcheck--program-not-configured-error
        (wcheck-mode -1)
-       (message "Language \"%s\": checker program not configured"
+       (message "Checker program is not configured for language \"%s\""
                 (cdr error-data)))
 
       (wcheck--language-does-not-exist-error
@@ -1694,11 +1694,11 @@ any kind of actions, though."
         return-value)
 
     (wcheck--action-program-error
-     (message "Language \"%s\": action program is not configured"
+     (message "Action program is not configured for language \"%s\""
               (cdr error-data)))
 
     (wcheck--parser-function-not-configured-error
-     (message "Language \"%s\": parser function is not configured"
+     (message "Parser function is not configured for language \"%s\""
               (cdr error-data)))
 
     (wcheck--error

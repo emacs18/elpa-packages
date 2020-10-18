@@ -23,13 +23,33 @@
 
             <div class="container">
 <h2 class="package">excorporate</h2><dl><dt>Description</dt><dd>Exchange Web Services (EWS) integration</dd>
-<dt>Latest</dt> <dd><a href="excorporate-0.8.3.tar">excorporate-0.8.3.tar</a>, 2020-Sep-29,  150&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="excorporate-0.9.1.tar">excorporate-0.9.1.tar</a>, 2020-Oct-18,  150&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>Thomas Fitzsimmons &lt;fitzsim@fitzsim.org></dd>
 <dt>Home page</dt> <dd><a href="https://www.fitzsim.org/blog/">https://www.fitzsim.org/blog/</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/tree/packages/excorporate">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=tree;f=packages/excorporate">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">excorporate</span> RET</pre><h2>Full description</h2><pre>
 Excorporate provides Exchange integration for Emacs.
+
+Most Recent Improvements
+------------------------
+
+New in Excorporate 0.9.1, released 2020-10-05:
+
+** Change default behaviour of decline, accept and tenatitvely-accept functions
+
+Always prompt for a response message in
+exco-org-decline-meeting-request, exco-org-accept-meeting-request, and
+exco-org-tentatively-accept-meeting-request, unless a prefix argument
+is specified.
+
+** Allow force-deleting calendar items
+
+Take a prefix argument to exco-org-delete-appointment to force-delete
+the calendar item at point in the *Excorporate* Org buffer.
+
+Quick Start
+-----------
 
 To create a connection to a web service:
 
@@ -53,6 +73,36 @@ Excorporate Info node at C-h i d m Excorporate.
 </pre>
 <h2>News</h2><pre>
 GNU Emacs Excorporate NEWS -- history of user-visible changes.
+
+* Excorporate 0.9.1
+
+Released 2020-10-05
+
+** Change default behaviour of decline, accept and tenatitvely-accept functions
+
+Always prompt for a response message in
+exco-org-decline-meeting-request, exco-org-accept-meeting-request, and
+exco-org-tentatively-accept-meeting-request, unless a prefix argument
+is specified.
+
+** Allow force-deleting calendar items
+
+Take a prefix argument to exco-org-delete-appointment to force-delete
+the calendar item at point in the *Excorporate* Org buffer.
+
+* Excorporate 0.9.0
+
+Released 2020-09-30
+
+** Add interactive exco-org meeting and appointment cancellation functions
+
+** Add interactive exco-org meeting reply functions
+
+** Add meeting and appointment creation functions
+
+** Add meeting organizer to Org entries
+
+** Add API Usage section to the manual, with several examples
 
 * Excorporate 0.8.3
 
