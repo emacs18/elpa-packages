@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">python</h2><dl><dt>Description</dt><dd>Python's flying circus support for Emacs</dd>
-<dt>Latest</dt> <dd><a href="python-0.26.1.el">python-0.26.1.el</a>, 2020-Oct-18,  230&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="python-0.27.1.el">python-0.27.1.el</a>, 2020-Dec-15,  230&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>emacs-devel@gnu.org</dd>
 <dt>Home page</dt> <dd><a href="https://github.com/fgallina/python.el">https://github.com/fgallina/python.el</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/progmodes/python.el">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs.git;a=blob;f=lisp/progmodes/python.el">Gitweb</a></dd>
@@ -31,7 +31,7 @@
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">python</span> RET</pre><h2>Full description</h2><pre>
 Major mode for editing Python files with some fontification and
 indentation bits extracted from original Dave Love's python.el
-found in GNU/Emacs.
+found in GNU Emacs.
 
 Implements Syntax highlighting, Indentation, Movement, Shell
 interaction, Shell completion, Shell virtualenv support, Shell
@@ -137,7 +137,7 @@ completion can be found in `python-shell-completion-setup-code' and
 values enable completion for both CPython and IPython, and probably
 any readline based shell (it's known to work with PyPy).  If your
 Python installation lacks readline (like CPython for Windows),
-installing pyreadline (URL `http://ipython.org/pyreadline.html')
+installing pyreadline (URL `https://ipython.org/pyreadline.html')
 should suffice.  To troubleshoot why you are not getting any
 completions, you can try the following in your Python shell:
 
@@ -248,12 +248,5 @@ options:
 
 I'd recommend the first one since you'll get the same behavior for
 all modes out-of-the-box.
-
-Installation:
-
-Add this to your .emacs:
-
-(add-to-list 'load-path "/folder/containing/file")
-(require 'python)
 </pre>
 </body>

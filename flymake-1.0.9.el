@@ -437,7 +437,8 @@ region is invalid."
               (if (and col (cl-plusp col))
                   (let* ((beg (progn (forward-char (1- col))
                                      (point)))
-                         (sexp-end (ignore-errors (end-of-thing 'sexp)))
+                         (sexp-end (or (ignore-errors (end-of-thing 'sexp))
+                                       (ignore-errors (end-of-thing 'symbol))))
                          (end (or (and sexp-end
                                        (not (= sexp-end beg))
                                        sexp-end)
@@ -1224,7 +1225,7 @@ default) no filter is applied."
                       map))
       ,@(pcase-let ((`(,ind ,face ,explain)
                      (cond ((null known)
-                            '("?" mode-line "No known backends"))
+                            '("?" nil "No known backends"))
                            (some-waiting
                             `("Wait" compilation-mode-line-run
                               ,(format "Waiting for %s running backend(s)"

@@ -23,7 +23,7 @@
 
             <div class="container">
 <h2 class="package">relint</h2><dl><dt>Description</dt><dd>Elisp regexp mistake finder</dd>
-<dt>Latest</dt> <dd><a href="relint-1.18.tar">relint-1.18.tar</a>, 2020-Oct-18,  190&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="relint-1.19.tar">relint-1.19.tar</a>, 2020-Dec-15,  200&nbsp;KiB</dd>
 <dt>Home page</dt> <dd><a href="https://github.com/mattiase/relint">https://github.com/mattiase/relint</a></dd>
 <dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/relint">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/relint">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
@@ -35,6 +35,16 @@ Relint scans elisp files for mistakes in regexps, including deprecated
 syntax and bad practice. It also checks the regexp-like arguments to
 skip-chars-forward, skip-chars-backward, skip-syntax-forward and
 skip-syntax-backward.
+
+* Contents
+
+   - Usage
+   - Installation
+   - What the diagnostics mean
+   - Suppressing diagnostics
+   - How it works
+   - Bugs
+
 
 * Usage
 
@@ -78,6 +88,9 @@ skip-syntax-backward.
 
 
 * What the diagnostics mean
+
+  Tip: if a regexp string is difficult to understand, consider
+  decoding it using 'xr', as in (xr-lint "gibberish").
 
   - Unescaped literal 'X'
 
@@ -217,7 +230,7 @@ skip-syntax-backward.
 
   - Literal '-' not first or last
 
-    It is good style to put literal hyphens last in character
+    It is good style to put a literal hyphen last in character
     alternatives and skip sets, to clearly indicate that it was not
     intended as part of a range.
 
@@ -392,6 +405,12 @@ skip-syntax-backward.
 
 </pre>
 <h2>News</h2><pre>
+Version 1.19
+- Progress indicator in `relint-directory'
+- Some performance improvements
+- Fix some false positives in the regexp provenance detector
+- Scan assignments to `font-lock-defaults' correctly
+- Recognise regexp arguments to functions in the s.el package
 Version 1.18:
 - New check for ineffective backslashes in all strings (not just regexps)
 - Warnings emitted in order of their position in file or buffer

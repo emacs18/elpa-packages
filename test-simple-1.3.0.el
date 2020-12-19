@@ -89,12 +89,6 @@
 
 ;;; Code:
 
-;; Press C-x C-e at the end of the next line configure the program in GNU emacs
-;; for building via "make" to get set up.
-;; (compile (format "EMACSLOADPATH=:%s ./autogen.sh" "."))
-;; After that you can run:
-;; (compile "make check")
-
 (require 'cl-lib)
 
 (defgroup test-simple nil
@@ -162,6 +156,8 @@ clears out information from the previous run."
   (interactive)
 
   (unless test-info
+    (unless test-simple-info
+      (make-variable-buffer-local (defvar test-simple-info (make-test-info))))
     (setq test-info test-simple-info))
 
   (setf (test-info-description test-info) "none set")
