@@ -1,6 +1,6 @@
 ;;; eldoc.el --- Show function arglist or variable docstring in echo area  -*- lexical-binding:t; -*-
 
-;; Copyright (C) 1996-2020 Free Software Foundation, Inc.
+;; Copyright (C) 1996-2021 Free Software Foundation, Inc.
 
 ;; Author: Noah Friedman <friedman@splode.com>
 ;; Keywords: extensions
@@ -248,7 +248,8 @@ expression point is on." :lighter eldoc-minor-mode-string
                      #'elisp-eldoc-var-docstring nil t)
            (add-hook 'eldoc-documentation-functions
                      #'elisp-eldoc-funcall nil t)
-           (setq eldoc-documentation-strategy 'eldoc-documentation-default)))
+           (setq-local eldoc-documentation-strategy
+                       'eldoc-documentation-default)))
   (eldoc-mode +1))
 
 ;;;###autoload
