@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - org</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - org</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">org</h2><dl><dt>Description</dt><dd>Outline-based notes management and organizer</dd>
+<dt>Latest</dt> <dd><a href="org-9.4.4.tar">org-9.4.4.tar</a>, 2021-Mar-12, 8.25&nbsp;MiB</dd>
+<dt>Maintainer</dt> <dd>Bastien Guerry &lt;bzg@gnu.org></dd>
+<dt>Home page</dt> <dd><a href="https://orgmode.org">https://orgmode.org</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/org">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/org">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">org</span> RET</pre><h2>Full description</h2><pre>
+-*- mode: org; fill-column:70 -*-
+
+This is a distribution of Org, a plain text notes and project planning
+tool for Emacs.
+
+Check the [[https://orgmode.org][homepage of Org]] and the [[https://orgmode.org/org.html#Installation][installations instructions]].
+
+* Contents of this distribution
+
+- README :: This file.
+
+- COPYING :: The GNU General Public License.
+
+- Makefile :: The makefile to compile and install Org.  For installation
+  instructions, see the manual or [[https://orgmode.org/worg/dev/org-build-system.html][the more detailed procedure on Worg]].
+  
+- mk/ :: Files needed for building Org.
+
+- lisp/ :: Directory with all the Emacs Lisp files that make up Org.
+
+- doc/ :: The documentation files.  org.texi is the source of the
+  documentation, org.html and org.pdf are formatted versions of it.
+
+- contrib/ :: A directory with third-party additions for Org.  Some
+  really cool stuff is in there.
+
+- etc/ :: Files needed for the ODT exporter.
+
+- testing/ :: Testing suite for Org.
+
+- request-assign-future.txt :: The form that contributors have to sign
+  and get processed with the FSF before contributed changes can be
+  integrated into the Org core.  All files in this distribution except
+  the contrib/ directory have copyright assigned to the FSF.
+
+* License
+
+Org-mode is published under [[https://www.gnu.org/licenses/gpl-3.0.html][the GNU GPLv3 license]] or any later
+version, the same as GNU Emacs.  See the COPYING file in this
+directory.
+
+</pre>
+<h2>News</h2><pre>
+ORG NEWS -- history of user-visible changes.   -*- mode: org; coding: utf-8 -*-
+
+#+STARTUP: overview
+
+#+LINK: doc https://orgmode.org/worg/doc.html#%s
+#+LINK: git https://code.orgmode.org/bzg/org-mode/commit/%s
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+See the end of the file for license conditions.
+
+Please send Org bug reports to mailto:emacs-orgmode@gnu.org.
+
+* Version 9.5 (not yet released)
+* Version 9.4
+** Incompatible changes
+*** Possibly broken internal file links: please check and fix
+
+A bug has been affecting internal links to headlines, like
+
+: [[*Headline][A link to a headline]]
+
+Storing a link to a headline may have been broken in your setup and
+those links may appear as
+
+: [[*TODO Headline][A link to a headline]]
+
+Following the link above will result in an error: the TODO keyword
+should not be part of internal file links.
+
+You can use the following command to fix links in an Org buffer:
+
+#+begin_src emacs-lisp
+(defun org-fix-links ()
+  "Fix ill-formatted internal links.
+E.g. replace [[*TODO Headline][headline]] by [[*Headline][headline]].
+Go through the buffer and ask for the replacement."
+  (interactive)
+  (visible-mode 1)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((regexp (format "\\[\\[\\*%s\\s-+"
+                          (regexp-opt org-todo-keywords-1 t))))
+      (while (re-search-forward regexp nil t)
+        (when (and (save-excursion
+                     (goto-char (match-beginning 0))
+                     (looking-at-p org-link-bracket-re))
+                   (y-or-n-p "Fix link (remove TODO keyword)? "))
+	  (replace-match "[[*")))))
+  (visible-mode -1))
+#+end_src
+
+*** Calling conventions changes when opening or exporting custom links
+
+This changes affects export back-ends, and libraries providing new
+link types.
+
+Function used in ~:follow~ link parameter is required to accept a
+second argument.  Likewise, function used in ~:export~ parameter needs
+to accept a fourth argument.  See ~org-link-set-parameters~ for
+details.
+
+Eventually, the function ~org-export-custom-protocol-maybe~ is now
+called with a fourth argument.  Even though the 3-arguments definition
+is still supported, at least for now, we encourage back-end developers
+to switch to the new signature.
+
+*** Python session return values must be top-level expression statements
+
+Python blocks with ~:session :results value~ header arguments now only
+return a value if the last line is a top-level expression statement.
+Also, when a None value is returned, "None" will be printed under
+"#+RESULTS:", as it already did with ~:results value~ for non-session
+blocks.
+
+*** In HTML export, change on how outline-container-* is set
+
+When the headline has a =CUSTOM_ID=, use this custom id to build the
+div id.  For example, if you have =:CUSTOM_ID: my-headline= then the
+resulting &lt;div> will be ~&lt;div id="outline-container-my-headline">~.
+
+You may want to check whether your HTML files are rendered differently
+after this change.
+
+*** New keybinding =&lt;C-c C-TAB>= for ~org-force-cycle-archived~
+
+~org-force-cycle-archived~ used to be associated with =&lt;C-TAB>= but
+this keybinding is used in Emacs for navigating tabs in Emacs.  The
+new keybinding is =&lt;C-c C-TAB>=.
+
+** New default settings for some options
+
+These options now default to =t=:
+
+- ~org-loop-over-headlines-in-active-region~
+- ~org-fontify-done-headline~
+- ~org-src-tab-acts-natively~
+
+You may want to read the docstrings of these options to understand the
+consequences of this change.
+
+Also, ~org-startup-folded~ now defaults to ~showeverything~.
+
+** New features
+
+*** Looping agenda commands over headlines
+
+~org-agenda-loop-over-headlines-in-active-region~ allows you to loop
+agenda commands over the active region.
+
+When set to =t= (the default), loop over all headlines.  When set to
+='start-level=, loop over headlines with the same level as the first
+headline in the region.  When set to a string, loop over lines
+matching this regular expression.
+
+*** New minor mode ~org-table-header-line-mode~...
+...
+
+</pre>
+</body>

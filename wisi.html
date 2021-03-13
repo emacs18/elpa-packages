@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - wisi</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - wisi</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">wisi</h2><dl><dt>Description</dt><dd>Utilities for implementing an indentation/navigation engine using a generalized LALR parser</dd>
+<dt>Latest</dt> <dd><a href="wisi-3.1.3.tar">wisi-3.1.3.tar</a>, 2021-Mar-12, 2.30&nbsp;MiB</dd>
+<dt>Maintainer</dt> <dd>Stephen Leake &lt;stephen_leake@stephe-leake.org></dd>
+<dt>Home page</dt> <dd><a href="http://stephe-leake.org/ada/wisitoken.html">http://stephe-leake.org/ada/wisitoken.html</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/wisi">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/wisi">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">wisi</span> RET</pre><h2>Full description</h2><pre>
+Emacs wisi package 3.1.2
+
+The wisi package provides utilities for using generalized
+error-correcting LR parsers (in external processes) to do indentation,
+fontification, and navigation; and integration with Emacs package.el.
+See ada-mode for an example of its use.
+
+It also provides wisitoken-parse_table-mode, for navigating the
+diagnostic parse tables output by wisitoken-bnf-generate.
+
+The generated code is in Ada; it requires the AdaCore gnat compiler
+that you may not have installed. It is available in many packaging
+systems, or as a binary download from
+https://www.adacore.com/download.
+
+</pre>
+<h2>News</h2><pre>
+GNU Emacs wisi NEWS -- history of user-visible changes.
+
+Copyright (C) 2014 - 2020 Free Software Foundation, Inc.
+
+Please send wisi bug reports to bug-gnu-emacs@gnu.org, with
+'wisi' in the subject. If possible, use M-x report-emacs-bug.
+
+
+* wisi 3.1.2
+4 Jun 2020
+
+** New dispatching function wisi-xref-completion-delim-regex for
+   setting completion delimiters; example use in gpr-query.el.
+
+** wisi-get-identifier (used by wisi-goto-spec/body and others) sets
+   completion delimiters using wisi-xref-completion-delim-regex.
+
+** A bug in wisi-before-change is fixed; it was missing many buffer
+   changes, causing the parser not to be run when it should be.
+
+* wisi 3.1.1
+14 May 2020
+
+** packaging bug fix
+
+* wisi 3.1.0
+11 May 2020
+
+** Add Wisitoken.Syntax_Trees.Insert_Token, to allow using inserted
+   virtual terminals tokens in indent. Several related changes to
+   allow treating virtual terminals on par with actual terminals.
+
+** New elisp generic functions: wisi-xref-completion-table, wisi-xref-completion-regexp, wisi-xref-completion-at-point-table
+
+** New elisp functions: wisi-filter-table, wisi-completion-at-point, wisi-skel-add-token-after
+
+** wisi-get-identifier uses wisi-xref-completion-table.
+
+** wisi-prj-identifier-at-point returns (IDENT START END)
+
+** In wisi.ads: augmented tokens are no stored only in the syntax
+   tree; new functions Get_Aug_Token_Const_1, Get_Aug_Token_Const,
+   Get_Aug_Token_Var provide access to them. Parse_Data_Type contains
+   a reference to the shared Terminals.
+
+* wisi 3.0.1
+30 Jan 2020
+
+** fix packaging bugs
+
+** improve xref integration
+
+* wisi 3.0.0
+19 Dec 2019
+
+** parser process protocol version 5
+
+** Add project.el integration. See wisi.info for more information.
+
+** Move autocase functions from ada-mode to wisi.
+
+** Replace most ada-mode function variables with dispatching on wisi-prj.
+
+** New commands `wisi-goto-containing-statement-start', `wisi-indent-containing-statement'.
+
+** Displayed parser errors are sorted in increasing error position.
+
+* wisi 2.2.1
+17 Aug 2019
+
+** parser process protocol version 4
+
+** fix packaging bugs
+
+* wisi 2.2.0
+13 Aug 2019
+
+** parser process protocol version 3
+
+** Support for the elisp parser and lexer is deleted; only the Ada
+   process parser is supported.
+
+** New user variable `wisi-indent-context-lines' specifies the minimum
+   number of lines before point to include in a parse for indenting a
+   single line. This gives better results when indenting in a nested
+   'if then else', for example. The default value is 0; you must
+   change it to see an effect.
+
+** Error correction is faster by approximately 30%;
+   %mckenzie_enqueue_limit can be raised accordingly.
+
+** %mckenzie_enqueue_limit is now applied to the total of all parsers
+    in recovery; previously, it was applied to each parser separately.
+    Applying to the total gives a more consistent maximum user wait
+    time for recovery, at the cost of not finding solutions when there
+    are many parsers involved. You may want to increase
+    %mckenzie_enqueue_limit for this as well.
+
+** In the process parser, `wisi-statement-start' now sets 'containing'
+   in all contained caches to the start token, if not set already;
+   previously it only did this if the token was mentioned in the
+   `wisi-statement-start' action. This makes `wisi-containing-action'
+   unnecessary.
+
+** `wisi-containing-action' is deleted.
+
+** An argument of `wisi-motion-action' that is a vector may now
+   provide only one token ID. That token ID is searched for in the
+   containing token region, and the motion token chain starting at the
+   first one found is included in the current right hand side motion
+   token chain.
+
+** The process parser supports a new parse command `wisi-refactor',
+   which returns a new message "Edit". It is intended for performing
+   syntax-guided refactoring of code statements.
+
+* wisi 2.1.1
+11 Jul 2019
+
+** parser process protocol version 3
+
+** User variable wisi-mckenzie-cost-limit is deleted; set
+   wisi...
+...
+
+</pre>
+</body>

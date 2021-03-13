@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - bnf-mode</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - bnf-mode</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">bnf-mode</h2><dl><dt>Description</dt><dd>Major mode for editing BNF grammars.</dd>
+<dt>Latest</dt> <dd><a href="bnf-mode-0.4.4.tar">bnf-mode-0.4.4.tar</a>, 2021-Mar-12, 80.0&nbsp;KiB</dd>
+<dt>Maintainer</dt> <dd>Serghei Iakovlev &lt;egrep@protonmail.ch></dd>
+<dt>Home page</dt> <dd><a href="https://github.com/sergeyklay/bnf-mode">https://github.com/sergeyklay/bnf-mode</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/bnf-mode">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/bnf-mode">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">bnf-mode</span> RET</pre><h2>Full description</h2><pre>
+* BNF Mode for GNU Emacs
+
+[[https://www.gnu.org/licenses/gpl-3.0.txt][https://img.shields.io/badge/license-GPL_3-green.svg]]
+[[https://github.com/sergeyklay/bnf-mode/actions][https://github.com/sergeyklay/bnf-mode/workflows/build/badge.svg]]
+[[https://codecov.io/gh/sergeyklay/bnf-mode][https://codecov.io/gh/sergeyklay/bnf-mode/branch/master/graph/badge.svg]]
+[[https://melpa.org/#/bnf-mode][https://melpa.org/packages/bnf-mode-badge.svg]]
+[[https://stable.melpa.org/#/bnf-mode][https://stable.melpa.org/packages/bnf-mode-badge.svg]]
+
+A GNU Emacs major mode for editing BNF grammars.
+
+#+begin_quote
+“Precise language is not the problem.  Clear language is the problem.”
+
+Richard Feynman
+#+end_quote
+
+Currently provides basic syntax and font-locking for BNF files.  BNF notation is
+supported exactly form as it was first announced in the ALGOL 60 report.
+EBNF and ABNF are not supported but their implementation is planned in the near
+future.
+
+When developing this mode, the following documents were taken into account:
+
+- [[https://www.masswerk.at/algol60/report.htm][Revised Report on the Algorithmic Language Algol 60]]
+- [[https://tools.ietf.org/html/rfc822][RFC822]]: Standard for ARPA Internet Text Messages
+- [[https://tools.ietf.org/html/rfc5234][RFC5234]]: Augmented BNF for Syntax Specifications: ABNF
+- [[https://tools.ietf.org/html/rfc7405][RFC7405]]: Case-Sensitive String Support in ABNF
+
+** Features
+
+- Basic syntax definition
+- Syntax highlighting
+
+** Installation
+
+Known to work with GNU Emacs 24.3 and later.  BNF Mode may work with
+older versions of Emacs, or with other flavors of Emacs (e.g. XEmacs)
+but this is /not/ guaranteed.  Bug reports for problems related to using
+BNF Mode with older versions of Emacs will most like not be addressed.
+
+The master of all the material is the Git repository at
+https://github.com/sergeyklay/bnf-mode .
+
+NOTE: The ~master~ branch will always contain the latest unstable version.
+If you wish to check older versions or formal, tagged release, please switch
+to the relevant [[https://github.com/sergeyklay/bnf-mode/tags][tag]].
+
+The recommended way is to use [[https://elpa.gnu.org/][ELPA]], [[https://stable.melpa.org/][MELPA Stable]] or [[https://melpa.org/][MELPA]]. If either is in your
+=package-archives=, do:
+
+#+begin_src
+M-x package-install RET bnf-mode RET
+#+end_src
+
+To learn on how to use any other installation methods refer to relevant
+documentation.
+
+** Usage
+
+*** Interactive Commands
+
+| Command (For the ~M-x~ prompt.) | Description                      |
+|---------------------------------+----------------------------------|
+| ~bnf-mode~                      | Switches to BNF Mode.            |
+
+By default any file that matches the glob ~*.bnf~ is automatically opened
+in ~bnf-mode~.
+
+** Customization
+
+To customize various options, use command as follows:
+
+#+begin_src
+M-x customize-group RET bnf RET
+#+end_src
+
+** Support
+
+Feel free to ask question or make suggestions in our [[https://github.com/sergeyklay/bnf-mode/issues][issue tracker]] .
+
+** Changes
+
+To see what has changed in recent versions of BNF Mode see:
+https://github.com/sergeyklay/bnf-mode/blob/master/NEWS .
+
+** External Links
+
+- [[https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form][Wikipedia: Backus–Naur form]]
+- [[https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form][Wikipedia: Extended Backus–Naur form]]
+- [[https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form][Wikipedia: Augmented Backus–Naur form]]
+- [[https://www.cl.cam.ac.uk/~mgk25/iso-14977.pdf][ISO/IEC 14977: EBNF]]
+- [[https://www.ics.uci.edu/~pattis/ICS-33/lectures/ebnf.pdf][EBNF: A Notation to Describe Syntax]]
+
+** License
+
+BNF Mode is open source software licensed under the [[https://github.com/sergeyklay/bnf-mode/blob/master/LICENSE][GNU General Public Licence version 3]].
+Copyright © 2019, 2020, Free Software Foundation, Inc.
+
+</pre>
+<h2>News</h2><pre>
+bnf-mode NEWS -- history of user-visible changes.
+
+Copyright (C) 2019, 2020 Free Software Foundation, Inc.
+See the end of the file for license conditions.
+
+This file is about changes in BNF Mode.
+
+* BNF Mode 0.4.4
+** Rework documentation and provide Info-file.
+Previous releases of BNF Mode were bundled with incorrect "dir" file
+which contained an invalid link to documentation.  This was
+resolved.  All documentation now lives in "info bnf-mode".
+
+* BNF Mode 0.4.3
+** Fixed dependency list in the Cask file.
+Dependency list was fixed by specifying `cl-lib' version as well as
+removing `rx' (`rx' is part of GNU Emacs actually).  This fixed the
+issue reported in &lt;https://github.com/sergeyklay/bnf-mode/issues/5>.
+The issue related to installation from the TAR file.
+
+** CI/CD process was moved on GitHub Actions.
+
+* BNF Mode 0.4.2
+** First release in ELPA.
+
+** Introduced ALGOL 60 comments style. Disabled by default.
+
+** Use semicolons as a comments.
+Only setting bnf-mode-algol-comments-style to non-nil will allow use
+semicolons as a regular terminal symbols.
+
+* BNF Mode 0.4.1
+** Minor fix related to build &amp; deploy BNF Mode on Travis CI.
+
+* BNF Mode 0.4.0
+** Added comment-start-skip to improve recognize comments.
+
+** Return back comment-start and comment-end.
+
+** Use more intelligent terminal syntax recognition.
+Added support of ";" character as an extra character used in terminals.
+
+** Provided ability to build installation package.
+See make help for more.
+
+* BNF Mode 0.3.2
+** First release in MELPA.
+
+** Treat ' and " as a regular symbols.
+
+** Removed no longer needed comment-* variables.
+
+** In the BNF there are no grouping brackets except angle ones.
+
+** Removed the bnf-mode-version function.
+Users can easily call describe-package or pkg-info-package-version
+interactively if they want to get this information.
+
+* BNF Mode 0.3.1
+** Fixed BNF rule name definition to follow ALGOL 60 report.
+
+* BNF Mode 0.3.0
+** Nonterminals may be preceded by an unlimited number of spaces.
+
+* BNF Mode 0.2.0
+** Comments are no longer use syntax table.
+
+** Changed comment syntax from "#" to ";" to follow RFC822#2.8.
+
+* BNF Mode 0.1.0
+** Initial stable release.
+
+
+
+----------------------------------------------------------------------
+This file is part of GNU Emacs.
+
+GNU Emacs is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+GNU Emacs is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GNU Emacs.  If not, see &lt;https://www.gnu.org/licenses/>.
+
+
+Local variables:
+coding: utf-8
+mode: outline
+paragraph-separate: "[ 	]*$"
+end:
+
+</pre>
+</body>

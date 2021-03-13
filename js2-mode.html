@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - js2-mode</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - js2-mode</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">js2-mode</h2><dl><dt>Description</dt><dd>Improved JavaScript editing mode</dd>
+<dt>Latest</dt> <dd><a href="js2-mode-20201220.tar">js2-mode-20201220.tar</a>, 2021-Mar-12,  600&nbsp;KiB</dd>
+<dt>Maintainer</dt> <dd>Steve Yegge &lt;steve.yegge@gmail.com></dd>
+<dt>Home page</dt> <dd><a href="https://github.com/mooz/js2-mode/">https://github.com/mooz/js2-mode/</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/js2-mode">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/js2-mode">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">js2-mode</span> RET</pre><h2>Full description</h2><pre>
+This JavaScript editing mode supports:
+
+ - strict recognition of the Ecma-262 language standard
+ - support for most Rhino and SpiderMonkey extensions from 1.5 and up
+ - parsing support for ECMAScript for XML (E4X, ECMA-357)
+ - accurate syntax highlighting using a recursive-descent parser
+ - on-the-fly reporting of syntax errors and strict-mode warnings
+ - undeclared-variable warnings using a configurable externs framework
+ - "bouncing" line indentation to choose among alternate indentation points
+ - smart line-wrapping within comments and strings
+ - code folding:
+   - show some or all function bodies as {...}
+   - show some or all block comments as /*...*/
+ - context-sensitive menu bar and popup menus
+ - code browsing using the `imenu' package
+ - many customization options
+
+Installation:
+
+To install it as your major mode for JavaScript editing:
+
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+Alternatively, to install it as a minor mode just for JavaScript linting,
+you must add it to the appropriate major-mode hook.  Normally this would be:
+
+  (add-hook 'js-mode-hook 'js2-minor-mode)
+
+You may also want to hook it in for shell scripts running via node.js:
+
+  (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+
+Use Emacs 27 and want to write JSX?  Then use `js2-minor-mode' as described
+above.  Use Emacs 26 or earlier?  Then use `js2-jsx-mode':
+
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+  (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+
+Note that linting of JSX code may fail in both modes.
+
+To customize how it works:
+  M-x customize-group RET js2-mode RET
+
+Notes:
+
+This mode includes a port of Mozilla Rhino's scanner, parser and
+symbol table.  Ideally it should stay in sync with Rhino, keeping
+`js2-mode' current as the EcmaScript language standard evolves.
+
+Unlike cc-engine based language modes, js2-mode's line-indentation is not
+customizable.  It is a surprising amount of work to support customizable
+indentation.  The current compromise is that the tab key lets you cycle among
+various likely indentation points, similar to the behavior of python-mode.
+
+This mode does not yet work with "multi-mode" modes such as `mmm-mode'
+and `mumamo', although it could be made to do so with some effort.
+This means that `js2-mode' is currently only useful for editing JavaScript
+files, and not for editing JavaScript within &lt;script> tags or templates.
+
+The project page on GitHub is used for development and issue tracking.
+The original homepage at Google Code has outdated information and is mostly
+unmaintained.
+</pre>
+<h2>News</h2><pre>
+# History of user-visible changes
+
+## 2020-12-20
+
+* Support for logical assignment operators ([#564](https://github.com/mooz/js2-mode/issues/564)).
+* Support for the nullish coalescing operator ([#561](https://github.com/mooz/js2-mode/pull/561)).
+* Emacs 27 now provides improved JSX indentation support, along with
+  new JSX highlighting and detection support. Install Emacs 27 and use
+  `js-mode` with `js2-minor-mode` (see README), rather than
+  `js2-jsx-mode`.
+* Using `js2-jsx-mode` will now trigger a warning in Emacs 27.
+* Support for optional-chaining operator `?.`
+
+## 2019-02-19
+
+* Changed the default of `js2-strict-trailing-comma-warning` to nil.
+
+## 2018-03-01
+
+* Support single-line JSDocs.
+* New face `js2-object-property-access`.
+* Support for trailing comma in function arguments
+* JSDoc highlighting for `@yield`, `@yields`, `@abstract`, `@virtual` and `@typedef`.
+* Support for anonymous class exports.
+
+## 2017-07-21
+
+* Support for async arrow function without parentheses.
+* Support for `/*jslint` declarations.
+* User option `js2-getprop-has-side-effects`.
+* Support for trailing commas in function parameter lists.
+* Support for ES7 public class fields.
+* New user option `js2-ignored-warnings`.
+
+## 2017-01-16
+
+* `js2-include-*-externs` are now evaluated on demand.  As a result,
+  they can now be effectively used as file- or directory-local
+  variables.
+* Support for ES7 exponentiation operator.
+
+## 2016-06-23
+
+* New variable `js2-mode-assume-strict`, for use with ES6 modules.
+* Support for JSDoc @callback, @func and @method tags.
+* Object properties are highlighted using a different face:
+  `js2-object-property`, which has no color by default.
+* Experimental support for object rest/spread ECMAScript proposal.
+* `js2-getter-setter-node` is renamed to `js2-method-node`, together with
+  its related functions.  It already handles generator methods, and we
+  added support for async methods (see below), so the old name would get
+  more confusing.
+* Support for default parameters in destructuring.  It should work for both
+  objects and arrays, in both literals and function arguments.
+* New mode: `js2-jsx-mode`, deriving from `js2-mode`.  Supports indentation of
+  JSXElement expressions wrapped within parentheses or as function arguments.
+  Indentation is customizable via `sgml-attribute-offset`.
+* Experimental support for async/await ECMAScript proposal.
+
+## 20150909
+
+* `js2-mode` now derives from `js-mode`. That means the former
+  function will run `js-mode-hook`, as well as `js2-mode-hook`. The
+  key bindings will default to `js-mode-map` where they're not set in
+  `js2-mode-map`. And in Emacs 25 or later (including the snapshot
+  builds), `js2-mode` uses the indentation code from `js-mode`.  Where
+  feasible, the user options (and functions) now have aliases, but if
+  you're using Emacs 25 and you see an indentation-related setting
+  that stopped working, try looking for a corresponding one in the
+  `js` group: `M-x customize-group RET js RET`.
+
+* New command: `js2-jump-to-definition`. It's bound to `M-.` by
+  default, via remapping `js-find-symbol`. To get back to the default
+  `M-.` binding (e.g. `find-tag`), put this in your init file:
+
+      (eval-after-load 'js (define-key js-mode-map (kbd "M-.") nil))
+
+## 20150713
+
+* More comprehensive strict mode warnings and syntax errors.
+* New minor mode: `js2-highlight-unused-variables-mode`.
+* `js2-pretty-multiline-declarations` can take the value `dynamic` now.
+
+## 20150202
+
+Support for:
+
+* [ES6 modules](http://www.2ality.com/2014/09/es6-modules-final.html).
+* [Short-hand object literals](http://ariya.ofilabs.com/2013/02/es6-and-object-literal-property-value-shorthand.html).
+* [Method definitions](http://ariya.ofilabs.com/2013/03/es6-and-method-definitions.html).
+* ['u' and 'y' RegExp flags](https://mathiasbynens.be/notes/es6-unicode-regex).
+* [Computed property names](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-object-initializer).
+* [Class statements and expression...
+...
+
+</pre>
+</body>

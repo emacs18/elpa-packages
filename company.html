@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - company</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - company</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">company</h2><dl><dt>Description</dt><dd>Modular text completion framework</dd>
+<dt>Latest</dt> <dd><a href="company-0.9.13.tar">company-0.9.13.tar</a>, 2021-Mar-12,  340&nbsp;KiB</dd>
+<dt>Maintainer</dt> <dd>Dmitry Gutov &lt;dgutov@yandex.ru></dd>
+<dt>Home page</dt> <dd><a href="http://company-mode.github.io/">http://company-mode.github.io/</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/company">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/company">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">company</span> RET</pre><h2>Full description</h2><pre>
+Company is a modular completion framework.  Modules for retrieving completion
+candidates are called backends, modules for displaying them are frontends.
+
+Company comes with many backends, e.g. `company-etags'.  These are
+distributed in separate files and can be used individually.
+
+Enable `company-mode' in all buffers with M-x global-company-mode.  For
+further information look at the documentation for `company-mode' (C-h f
+company-mode RET).
+
+If you want to start a specific backend, call it interactively or use
+`company-begin-backend'.  For example:
+M-x company-abbrev will prompt for and insert an abbrev.
+
+To write your own backend, look at the documentation for `company-backends'.
+Here is a simple example completing "foo":
+
+(defun company-my-backend (command &amp;optional arg &amp;rest ignored)
+  (interactive (list 'interactive))
+  (pcase command
+    (`interactive (company-begin-backend 'company-my-backend))
+    (`prefix (company-grab-symbol))
+    (`candidates (list "foobar" "foobaz" "foobarbaz"))
+    (`meta (format "This value is named %s" arg))))
+
+Sometimes it is a good idea to mix several backends together, for example to
+enrich gtags with dabbrev-code results (to emulate local variables).  To do
+this, add a list with both backends as an element in `company-backends'.
+</pre>
+<h2>News</h2><pre>
+# History of user-visible changes
+
+## 2020-07-26 (0.9.13)
+
+* `company-clang`: error handling is more permissive.
+* `company-tng` stops disabling `post-completion` in backends
+  ([#946](https://github.com/company-mode/company-mode/pull/946)). Instead,
+  `company-tng-configure-default` disables snippet expansion in most popular
+  backends. If a backend you use needs this and is not covered, and you use
+  `company-tng`, disable snippet insertion by customizing a relevant option
+  provided by the backend. The result is better compatibility with LSP backends
+  because they currently depend on `post-completion` in all cases.
+* `company-keywords`: additions for C and C++.
+* `company-yasnippet` supports the `doc-buffer` action.
+* `company-bbdb` supports more headers.
+
+## 2020-02-07 (0.9.12)
+
+* Tooltip rendering bugfix.
+* `company-indent-or-complete-common` is better compatible with
+  `indent-for-tab-command`
+  ([comment](https://github.com/company-mode/company-mode/issues/94#issuecomment-571265393)).
+
+## 2020-01-03 (0.9.11)
+
+* New value for option `company-show-numbers` to show numbers on the left.
+* `company-gtags` has some minor fixes.
+* Face definitions have moved to a separate group: `company-faces`.
+* `company-capf`'s `:exit-function` handling has been improved
+  ([#935](https://github.com/company-mode/company-mode/issues/935)).
+* New user option `company-clang-use-compile-flags-txt`
+  ([#933](https://github.com/company-mode/company-mode/issues/933)).
+* Support for completion style specific sorting (Emacs 27 feature).
+* Snippet/template field interaction is inhibited while completion is active
+  (where by default `TAB` calls `company-complete-common`, clashing with snippet
+  map binding `TAB` to "jump to the next field"). Affects both
+  `company-template` and `yasnippet` (requires version 0.14.0).
+
+## 2019-04-15 (0.9.10)
+
+* `company-clang`: better compatibility with Clang 8
+  ([#885](https://github.com/company-mode/company-mode/issues/885)).
+* The change in `company-clang` regarding identity #defines is reverted because
+  it affected other completions as well
+  ([#884](https://github.com/company-mode/company-mode/issues/884)).
+* `company-idle-delay` now accepts a function which generates the idle time or
+  nil indicating no idle completion.
+* Add custom variable `company-show-numbers-function` to make numbers of
+  candidates customizable. 
+* When a symbol is already typed in full, calling `M-x company-complete` will
+  now run its post-completion action (e.g. inserting method parameters
+  template). Calling `M-x company-manual-begin` or invoking a backend command
+  directly will show the popup
+  ([#150](https://github.com/company-mode/company-mode/issues/150),
+  [#476](https://github.com/company-mode/company-mode/issues/476)).
+
+## 2018-12-13 (0.9.9)
+
+* Fix for the changes in the previous release.
+* New hook `company-after-completion-hook`.
+* `company-clang` removes identity preprocessor #defines from completions
+  ([#841](https://github.com/company-mode/company-mode/issues/841)).
+
+## 2018-12-08 (0.9.8)
+
+* CAPF backend fixed to use the right `:exit-function`. It can now safely be a
+  closure with lexical context capturing the buffer state at the moment when the
+  completion table was returned
+  ([#845](https://github.com/company-mode/company-mode/pull/845)).
+
+## 2018-11-06 (0.9.7)
+
+* For more sophisticated highlighting in non-prefix completion, a backend may
+  now respond to a `match` request with a list of regions.  See
+  `company-backends`.
+  ([#798](https://github.com/company-mode/company-mode/issues/798),
+  [#762](https://github.com/company-mode/company-mode/issues/762))
+* The `company-capf` backend will pick up on a `:company-match` metadata element
+  on the capf function (similar to `:company-location` or `:company-doc-buffer`)
+  and use it as a response to aforementioned `match` request.
+* `company-cmake` supports completion inside string interpolations
+  ([#714](https://github.com/company-mode/company-mode/pull/714)).
+* Wor...
+...
+
+</pre>
+</body>

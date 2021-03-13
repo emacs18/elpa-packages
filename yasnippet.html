@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC>
+<html lang="en" xml:lang="en">
+    <head>
+        <title>GNU ELPA - yasnippet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/png" href="../favicon.png">
+        <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" type="text/css" href="../layout.css">
+        <script src="../javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="../javascript/jquery.filtertable.min.js" type="text/javascript"></script>
+        <script src="../javascript/package-search.js" type="text/javascript"></script>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,width=device-width" />
+    </head>
+    <body>
+
+        <div class="wrapper">
+
+            <div class="header small">
+                <div class="container">
+                    <h1><a href="index.html">GNU ELPA</a> - yasnippet</h1>
+                </div>
+            </div>
+
+            <div class="container">
+<h2 class="package">yasnippet</h2><dl><dt>Description</dt><dd>Yet another snippet extension for Emacs</dd>
+<dt>Latest</dt> <dd><a href="yasnippet-0.14.0.tar">yasnippet-0.14.0.tar</a>, 2021-Mar-12,  890&nbsp;KiB</dd>
+<dt>Maintainer</dt> <dd>Noam Postavsky &lt;npostavs@gmail.com></dd>
+<dt>Home page</dt> <dd><a href="http://github.com/joaotavora/yasnippet">http://github.com/joaotavora/yasnippet</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/yasnippet">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/yasnippet">Gitweb</a></dd>
+</dl><p>To install this package, run in Emacs:</p>
+                       <pre>M-x <span class="kw">package-install</span> RET <span class="kw">yasnippet</span> RET</pre><h2>Full description</h2><pre>
+  Basic steps to setup:
+
+   (add-to-list 'load-path
+                "~/path-to-yasnippet")
+   (require 'yasnippet)
+   (yas-global-mode 1)
+
+
+  Interesting variables are:
+
+      `yas-snippet-dirs'
+
+          The directory where user-created snippets are to be
+          stored.  Can also be a list of directories.  In that case,
+          when used for bulk (re)loading of snippets (at startup or
+          via `yas-reload-all'), directories appearing earlier in
+          the list override other dir's snippets.  Also, the first
+          directory is taken as the default for storing the user's
+          new snippets.
+
+          The deprecated `yas/root-directory' aliases this variable
+          for backward-compatibility.
+
+
+  Major commands are:
+
+      M-x yas-expand
+
+          Try to expand snippets before point.  In `yas-minor-mode',
+          this is normally bound to TAB, but you can customize it in
+          `yas-minor-mode-map'.
+
+      M-x yas-load-directory
+
+          Prompts you for a directory hierarchy of snippets to load.
+
+      M-x yas-activate-extra-mode
+
+          Prompts you for an extra mode to add snippets for in the
+          current buffer.
+
+      M-x yas-insert-snippet
+
+          Prompts you for possible snippet expansion if that is
+          possible according to buffer-local and snippet-local
+          expansion conditions.  With prefix argument, ignore these
+          conditions.
+
+      M-x yas-visit-snippet-file
+
+          Prompts you for possible snippet expansions like
+          `yas-insert-snippet', but instead of expanding it, takes
+          you directly to the snippet definition's file, if it
+          exists.
+
+      M-x yas-new-snippet
+
+          Lets you create a new snippet file in the correct
+          subdirectory of `yas-snippet-dirs', according to the
+          active major mode.
+
+      M-x yas-load-snippet-buffer
+
+          When editing a snippet, this loads the snippet.  This is
+          bound to "C-c C-c" while in the `snippet-mode' editing
+          mode.
+
+      M-x yas-tryout-snippet
+
+          When editing a snippet, this opens a new empty buffer,
+          sets it to the appropriate major mode and inserts the
+          snippet there, so you can see what it looks like.  This is
+          bound to "C-c C-t" while in `snippet-mode'.
+
+      M-x yas-describe-tables
+
+          Lists known snippets in a separate buffer.  User is
+          prompted as to whether only the currently active tables
+          are to be displayed, or all the tables for all major
+          modes.
+
+  If you have `dropdown-list' installed, you can optionally use it
+  as the preferred "prompting method", putting in your .emacs file,
+  for example:
+
+      (require 'dropdown-list)
+      (setq yas-prompt-functions '(yas-dropdown-prompt
+                                   yas-ido-prompt
+                                   yas-completing-prompt))
+
+  Also check out the customization group
+
+       M-x customize-group RET yasnippet RET
+
+  If you use the customization group to set variables
+  `yas-snippet-dirs' or `yas-global-mode', make sure the path to
+  "yasnippet.el" is present in the `load-path' *before* the
+  `custom-set-variables' is executed in your .emacs file.
+
+  For more information and detailed usage, refer to the project page:
+     http://github.com/joaotavora/yasnippet
+</pre>
+<h2>News</h2><pre>
+Yasnippet NEWS -- history of user-visible changes.
+
+Copyright (C) 2017-2019 Free Software Foundation, Inc.
+See the end of the file for license conditions.
+
+* 0.14.0 (Dec 22, 2019)
+
+** Changes
+
+*** New 'yas-auto-next' macro, automatically moves to next field.
+See Github #937.
+
+*** Yasnippet now officially requires Emacs 23 or greater.
+See Github #940.
+
+*** Snippets for 'fundamental-mode' are available in all modes.
+See Github #949, and #936.
+
+*** New function for snippets, 'yas-completing-read'.
+See Github #934.
+
+*** New function 'yas-maybe-expand-abbrev-key-filter'.
+This can be used for making conditional keybindings for snippets.
+Promoted from 'yas--maybe-expand-key-filter'.  See Github #943.
+
+*** DEL can now be used to clear fields, similar &lt;delete>.
+It is bound to the new conditional command 'yas-maybe-clear-field', which may
+be bound to other keys as well.  See Github #960 and #957.
+
+*** Snippet field movement commands may now trigger eldoc.
+See Github #952.
+
+*** New variable 'yas-keymap-disable-hook'.
+Can be used (e.g., for company-mode) to temporarily disable
+'yas-keymap' bindings, or any binding made by the new function
+'yas-filtered-definition'.  See Github #987.
+
+*** New variable 'yas-inhibit-overlay-modification-protection'.
+This allows a snippet to remain active, even if some commands make
+modifications outside the expected area (i.e., the active snippet
+field).
+
+*** 'yas-minor-mode' is no longer enabled in temp buffers.
+That is, buffers whose name starts with a space.  This setting may be
+undone by removing 'yas-temp-buffer-p' from
+'yas-dont-activate-functions'.  See Github #985.
+
+*** Accept unescaped '{', for LSP compatibility.
+See Github #979.
+
+** Fixed bugs
+
+*** 'yas-not-string-or-comment-condition' no longer relies on 'this-command'.
+This lets it work correctly with conditional key-bindings.  See Github
+#973, #991.
+
+*** Fix snippet expansion in org src buffers.
+Note that this still doesn't work in text-mode blocks.
+See Github #976, #989.
+
+*** Fix snippet insertion for keyless snippets.
+See Github #1014.
+
+*** Fix errors with company-mode completion within snippet fields.
+See Github #995.
+
+*** Fix errors with cc-mode.
+See Github #962.
+
+*** Fix problems with lsp-mode.
+**** Improve performance in overlay heavy buffers (Github #926).
+**** Fix double call of 'before/after-change-functions' (Github #966).
+
+*** Fix errors with nested snippet expansion.
+See Github #961, #1002.
+
+*** Stop yas-field-highlight-face inheriting from bogus 'quote' face.
+
+
+* 0.13.0 (May 13, 2018)
+
+** Changes
+
+*** Snippets for Yasnippet must now be installed separately.  The
+submodule linking to yasnippet-snippets was removed, as were the
+"classic" snippets that came with the GNU ELPA package.  The latter
+can now be installed via the 'yasnippet-classic-snippets' package from
+GNU ELPA.
+See Github #848, #858, #834, #775.
+
+*** 'snippet-mode' no longer derives from 'text-mode'.
+It will derive from 'prog-mode' where available (Emacs 24.1 and newer)
+or 'fundamental-mode' otherwise.  See Github #826.
+
+*** The default value of 'yas-key-syntaxes' is changed
+Longer snippet abbrev keys are now preferred over shorter ones.
+See Github #805.
+
+*** New snippets are now created for the current major mode by default
+Previously, extra activated modes could be guessed first.
+See Github #875.
+
+*** Yasnippet supports 'unload-feature' via 'yasnippet-unload-function'
+See Github #753, #891.
+
+*** New command 'yas-skip-and-clear-field' conditionally bound to 'C-d'
+replaces obsoleted 'yas-skip-and-clear-or-delete-char'.  The new
+function may be bound to any key via the conditional binding value
+'yas-maybe-skip-and-clear-field', instead of hardcoding the
+'delete-char' fallback action.  See Github #408, #892.
+
+*** 'yas-lookup-snippet' now returns a struct
+This allows 'yas-expand-snippet' to take looked up snippet's
+environment into account.  'yas-expand-snippet' handles both
+structured snippets, and plain text snippet bodies.
+See Github #897.
+
+** Fixed bugs
+
+*** Avoid crash...
+...
+
+</pre>
+</body>
