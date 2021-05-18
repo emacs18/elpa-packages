@@ -1373,16 +1373,6 @@
 	      (:maintainer "Michael Heerdegen" . "michael_heerdegen@web.de")
 	      (:authors
 	       ("Michael Heerdegen" . "michael_heerdegen@web.de")))])
- (org .
-      [(9 4 4)
-       ((emacs
-	 (24 3)))
-       "Outline-based notes management and organizer" tar
-       ((:url . "https://orgmode.org")
-	(:keywords "outlines" "hypermedia" "calendar" "wp")
-	(:maintainer "Bastien Guerry" . "bzg@gnu.org")
-	(:authors
-	 ("Carsten Dominik <carsten at orgmode dot org>")))])
  (org-edna .
 	   [(1 1 2)
 	    ((emacs
