@@ -3,11 +3,11 @@ Excorporate provides Exchange integration for Emacs.
 Most Recent Improvements
 ------------------------
 
-New in Excorporate 0.9.3, released 2021-01-28:
+New in Excorporate 0.9.6, released 2021-04-26:
 
-** Enable diary integration by default
+** Fix Emacs < 24.4 incompatibility in time zone support
 
-** Introduce defcustom, excorporate-update-diary, to control this behaviour
+** Require cl-lib package explicitly
 
 Quick Start
 -----------

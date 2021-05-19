@@ -314,6 +314,20 @@ Integration with other packages
 NEWS
 ~~~~
 
+(devel)
++++++++
+
+#. Drop support for Emacs < 25.
+
+[2018-07-25 Wed] 0.8.13
++++++++++++++++++++++++
+
+#. Don't choke on tag names start with ``-`` (`#156
+   <https://github.com/leoliu/ggtags/issues/156>`_).
+#. ``ggtags-show-definition`` supports ``ggtags-sort-by-nearness``.
+#. New variable ``ggtags-extra-args``.
+#. Unbreak ``ggtags-sort-by-nearness``.
+
 [2016-10-02 Sun] 0.8.12
 +++++++++++++++++++++++
 

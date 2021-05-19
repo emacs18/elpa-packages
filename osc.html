@@ -23,10 +23,10 @@
 
             <div class="container">
 <h2 class="package">osc</h2><dl><dt>Description</dt><dd>Open Sound Control protocol library</dd>
-<dt>Latest</dt> <dd><a href="osc-0.2.tar">osc-0.2.tar</a>, 2021-Mar-17, 20.0&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="osc-0.4.tar">osc-0.4.tar</a>, 2021-May-18, 20.0&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>Mario Lang &lt;mlang@blind.guru></dd>
 <dt>Home page</dt> <dd><a href="https://elpa.gnu.org/packages/osc.html">https://elpa.gnu.org/packages/osc.html</a></dd>
-<dt>Browse repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/osc">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/osc">Gitweb</a></dd>
+<dt>Browse repository</dt> <dd><a href="https://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/osc">CGit</a> or <a href="https://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/osc">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">osc</span> RET</pre><h2>Full description</h2><pre>
 OpenSound Control ("OSC") is a protocol for communication among
@@ -41,10 +41,6 @@ In particular:
 * `osc-server-set-handler' can be used to change handlers for particular
   OSC paths on a server process object on the fly.
 
-BUGS/TODO:
-
-* Timetags are not supported yet.
-
 Usage:
 
 Client: (setq my-client (osc-make-client "127.0.0.1" 7770))
@@ -55,4 +51,22 @@ Server: (setq my-server (osc-make-server "127.0.0.1" 7770
          (lambda (path &amp;rest args)
            (message "OSC %s: %S" path args))))
 </pre>
+<h2>Old versions</h2><table>
+<tr><td><a href="osc-0.2.tar">osc-0.2.tar</a></td><td>2021-Mar-17</td><td>20.0&nbsp;KiB</td>
+</table>
+
+
+        <div class="footer">
+            <div class="container">
+                <p>Copyright 2016-2021 <a href="https://fsf.org">Free Software Foundation</a>, Inc.</p>
+                <p>Design provided by <a href="https://nicolas.petton.fr">Nicolas Petton</a></p>
+                <p>
+                  This website is licensed under the
+                  <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+                  International License.
+                </p>
+                <p><a href="/jslicense.html" data-jslicense="1">JavaScript Licenses</a></p>
+            </div>
+        </div>
+
 </body>

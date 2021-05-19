@@ -23,10 +23,10 @@
 
             <div class="container">
 <h2 class="package">ggtags</h2><dl><dt>Description</dt><dd>emacs frontend to GNU Global source code tagging system</dd>
-<dt>Latest</dt> <dd><a href="ggtags-0.8.13.tar">ggtags-0.8.13.tar</a>, 2021-Mar-17,  120&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="ggtags-0.9.0.tar">ggtags-0.9.0.tar</a>, 2021-May-18,  120&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>Leo Liu &lt;sdl.web@gmail.com></dd>
 <dt>Home page</dt> <dd><a href="https://github.com/leoliu/ggtags">https://github.com/leoliu/ggtags</a></dd>
-<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/ggtags">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/ggtags">Gitweb</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="https://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/ggtags">CGit</a> or <a href="https://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/ggtags">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">ggtags</span> RET</pre><h2>Full description</h2><pre>
 =========================================================
@@ -345,6 +345,20 @@ Integration with other packages
 NEWS
 ~~~~
 
+(devel)
++++++++
+
+#. Drop support for Emacs &lt; 25.
+
+[2018-07-25 Wed] 0.8.13
++++++++++++++++++++++++
+
+#. Don't choke on tag names start with ``-`` (`#156
+   &lt;https://github.com/leoliu/ggtags/issues/156>`_).
+#. ``ggtags-show-definition`` supports ``ggtags-sort-by-nearness``.
+#. New variable ``ggtags-extra-args``.
+#. Unbreak ``ggtags-sort-by-nearness``.
+
 [2016-10-02 Sun] 0.8.12
 +++++++++++++++++++++++
 
@@ -466,4 +480,22 @@ Bugs
 https://github.com/leoliu/ggtags/issues
 
 </pre>
+<h2>Old versions</h2><table>
+<tr><td><a href="ggtags-0.8.13.tar">ggtags-0.8.13.tar</a></td><td>2021-Mar-17</td><td> 120&nbsp;KiB</td>
+</table>
+
+
+        <div class="footer">
+            <div class="container">
+                <p>Copyright 2016-2021 <a href="https://fsf.org">Free Software Foundation</a>, Inc.</p>
+                <p>Design provided by <a href="https://nicolas.petton.fr">Nicolas Petton</a></p>
+                <p>
+                  This website is licensed under the
+                  <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+                  International License.
+                </p>
+                <p><a href="/jslicense.html" data-jslicense="1">JavaScript Licenses</a></p>
+            </div>
+        </div>
+
 </body>

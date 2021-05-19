@@ -23,43 +23,63 @@
 
             <div class="container">
 <h2 class="package">ace-window</h2><dl><dt>Description</dt><dd>Quickly switch windows.</dd>
-<dt>Latest</dt> <dd><a href="ace-window-0.9.0.tar">ace-window-0.9.0.tar</a>, 2021-Mar-17, 30.0&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="ace-window-0.10.0.tar">ace-window-0.10.0.tar</a>, 2021-May-18, 60.0&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>Oleh Krehel &lt;ohwoeowho@gmail.com></dd>
 <dt>Home page</dt> <dd><a href="https://github.com/abo-abo/ace-window">https://github.com/abo-abo/ace-window</a></dd>
-<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/ace-window">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/ace-window">Gitweb</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="https://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/ace-window">CGit</a> or <a href="https://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/ace-window">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">ace-window</span> RET</pre><h2>Full description</h2><pre>
-The main function, `ace-window' is meant to replace `other-window'.
-In fact, when there are only two windows present, `other-window' is
-called.  If there are more, each window will have its first
-character highlighted.  Pressing that character will switch to that
-window.
+The main function, `ace-window' is meant to replace `other-window'
+by assigning each window a short, unique label.  When there are only
+two windows present, `other-window' is called (unless
+aw-dispatch-always is set non-nil).  If there are more, each
+window will have its first label character highlighted.  Once a
+unique label is typed, ace-window will switch to that window.
 
 To setup this package, just add to your .emacs:
 
-   (global-set-key (kbd "M-p") 'ace-window)
+   (global-set-key (kbd "M-o") 'ace-window)
 
-replacing "M-p"  with an appropriate shortcut.
+replacing "M-o"  with an appropriate shortcut.
 
-Depending on your window usage patterns, you might want to set
+By default, ace-window uses numbers for window labels so the window
+labeling is intuitively ordered.  But if you prefer to type keys on
+your home row for quicker access, use this setting:
 
    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
-This way they are all on the home row, although the intuitive
-ordering is lost.
-
-If you don't want the gray background that makes the red selection
-characters stand out more, set this:
+Whenever ace-window prompts for a window selection, it grays out
+all the window characters, highlighting window labels in red.  To
+disable this behavior, set this:
 
    (setq aw-background nil)
 
-If you want to know the selection characters ahead of time, you can
-turn on `ace-window-display-mode'.
+If you want to know the selection characters ahead of time, turn on
+`ace-window-display-mode'.
 
 When prefixed with one `universal-argument', instead of switching
-to selected window, the selected window is swapped with current one.
+to the selected window, the selected window is swapped with the
+current one.
 
 When prefixed with two `universal-argument', the selected window is
 deleted instead.
 </pre>
+<h2>Old versions</h2><table>
+<tr><td><a href="ace-window-0.9.0.tar">ace-window-0.9.0.tar</a></td><td>2021-Mar-17</td><td>30.0&nbsp;KiB</td>
+</table>
+
+
+        <div class="footer">
+            <div class="container">
+                <p>Copyright 2016-2021 <a href="https://fsf.org">Free Software Foundation</a>, Inc.</p>
+                <p>Design provided by <a href="https://nicolas.petton.fr">Nicolas Petton</a></p>
+                <p>
+                  This website is licensed under the
+                  <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+                  International License.
+                </p>
+                <p><a href="/jslicense.html" data-jslicense="1">JavaScript Licenses</a></p>
+            </div>
+        </div>
+
 </body>

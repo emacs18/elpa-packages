@@ -23,12 +23,22 @@
 
             <div class="container">
 <h2 class="package">kiwix</h2><dl><dt>Description</dt><dd>Searching offline Wikipedia through Kiwix.</dd>
-<dt>Latest</dt> <dd><a href="kiwix-1.0.1.tar">kiwix-1.0.1.tar</a>, 2021-Mar-17, 40.0&nbsp;KiB</dd>
+<dt>Latest</dt> <dd><a href="kiwix-1.0.3.tar">kiwix-1.0.3.tar</a>, 2021-May-18, 50.0&nbsp;KiB</dd>
 <dt>Maintainer</dt> <dd>stardiviner &lt;numbchild@gmail.com></dd>
 <dt>Home page</dt> <dd><a href="https://github.com/stardiviner/kiwix.el">https://github.com/stardiviner/kiwix.el</a></dd>
-<dt>Browse ELPA's repository</dt> <dd><a href="http://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/kiwix">CGit</a> or <a href="http://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/kiwix">Gitweb</a></dd>
+<dt>Browse ELPA's repository</dt> <dd><a href="https://git.savannah.gnu.org/cgit/emacs/elpa.git/?h=externals/kiwix">CGit</a> or <a href="https://git.savannah.gnu.org/gitweb/?p=emacs/elpa.git;a=shortlog;h=refs/heads/externals/kiwix">Gitweb</a></dd>
 </dl><p>To install this package, run in Emacs:</p>
                        <pre>M-x <span class="kw">package-install</span> RET <span class="kw">kiwix</span> RET</pre><h2>Full description</h2><pre>
+&lt;a href="https://melpa.org/#/kiwix">&lt;img alt="MELPA"
+src="https://melpa.org/packages/kiwix-badge.svg">&lt;/a>
+
+&lt;a href="https://www.gnu.org/licenses/gpl-3.0">&lt;img
+src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" />&lt;/a>
+
+&lt;a href="https://cla-assistant.io/stardiviner/kiwix.el">&lt;img
+src="https://cla-assistant.io/readme/badge/stardiviner/kiwix.el" alt="CLA
+assistant" />&lt;/a>
+
 * Intro
 
 Searching offline Wikipedia through Kiwix.
@@ -41,6 +51,13 @@ This =kiwix.el= supports query =kiwix-tools='s =kiwix-serve= server through URL 
 
 The =kiwix-serve= server can be started from command-line if you have =kiwix-tools=
 installed, or from Docker container [fn:1].
+
+* License &amp; Contribution
+
+This kiwix.el is under GPLv3 license. If you want to contribute or Pull Request,
+you need to have signed FSF copyright paper. Here is the start
+
+https://www.gnu.org/prep/maintain/maintain.html#Copyright-Papers
 
 * Install
 
@@ -107,7 +124,12 @@ https://addons.mozilla.org/en-US/firefox/addon/kiwix-offline/
 
 https://chrome.google.com/webstore/detail/kiwix/donaljnlmapmngakoipdmehbfcioahhk
 
-** MELPA
+** GNU ELPA &amp; MELPA
+
+kiwix.el now is available on GNU ELPA &amp; MELPA.
+
+- https://elpa.gnu.org/packages/kiwix.html
+- https://melpa.org/#/kiwix
 
 #+begin_src emacs-lisp :eval no
 (use-package kiwix
@@ -120,7 +142,7 @@ https://chrome.google.com/webstore/detail/kiwix/donaljnlmapmngakoipdmehbfcioahhk
   :hook (org-load . org-kiwix-setup-link))
 #+end_src
 
-* Setup
+* Setup kiwix-serve
 
 If you use kiwix-serve Docker container, you can create an Systemd unit service
 to auto start Docker container. Here is the systemd unit config file:
@@ -310,7 +332,7 @@ docker container ls --all | grep "kiwix-serve" | cat
 : b47533ecd7f6        kiwix/kiwix-serve               "/usr/local/bin/kiwi…"   3 hours ago         Exited (137) 2 minutes ago                                      kiwix-serve
 : e2f201e655ac        kiwix/kiwix-serve               "/usr/local/bin/kiwi…"   3 hours ago         Created                                                         distracted_hofstadter
 
-* Load
+* Config
 
 ** use-package
 
@@ -318,12 +340,13 @@ docker container ls --all | grep "kiwix-serve" | cat
 (use-package kiwix
   :ensure t
   :after org
+  :custom ((kiwix-server-use-docker t)
+           (kiwix-server-port 8089)
+           (kiwix-default-library "wikipedia_en_all_2016-02.zim") ; "wikipedia_zh_all_2015-11.zim"
+           (kiwix-default-browser-function 'eww))
   :commands (kiwix-launch-server kiwix-at-point)
   :init (require 'org-kiwix)
-  (setq kiwix-server-use-docker t
-              kiwix-server-port 8089
-              kiwix-default-library "wikipedia_en_all_2016-02.zim" ; "wikipedia_zh_all_2015-11.zim"
-              kiwix-default-browser-function 'eww))
+  :config (add-hook 'org-load-hook #'org-kiwix-setup-link))
 #+end_src
 
 * Usage
@@ -333,6 +356,10 @@ docker container ls --all | grep "kiwix-serve" | cat
 =[M-x kiwix-at-point]=
 
 ** Org Mode integration
+
+#+begin_src emacs-lisp
+(require 'org-kiwix)
+#+end_src
 
 =[C-c C-l]= to insert link.
 
@@ -451,4 +478,22 @@ with RESTful API.
 [fn:1] https://github.com/kiwix/kiwix-tools/issues/257
 
 </pre>
+<h2>Old versions</h2><table>
+<tr><td><a href="kiwix-1.0.1.tar">kiwix-1.0.1.tar</a></td><td>2021-Mar-17</td><td>40.0&nbsp;KiB</td>
+</table>
+
+
+        <div class="footer">
+            <div class="container">
+                <p>Copyright 2016-2021 <a href="https://fsf.org">Free Software Foundation</a>, Inc.</p>
+                <p>Design provided by <a href="https://nicolas.petton.fr">Nicolas Petton</a></p>
+                <p>
+                  This website is licensed under the
+                  <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+                  International License.
+                </p>
+                <p><a href="/jslicense.html" data-jslicense="1">JavaScript Licenses</a></p>
+            </div>
+        </div>
+
 </body>
