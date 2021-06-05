@@ -585,9 +585,11 @@
 	       (:authors
 		("Pierre Neidhardt" . "mail@ambrevar.xyz")))])
  (dismal .
-	 [(1 5)
+	 [(1 5 2)
 	  ((cl-lib
-	    (0)))
+	    (0))
+	   (emacs
+	    (24 3)))
 	  "Dis Mode Ain't Lotus: Spreadsheet program Emacs" tar
 	  ((:maintainer "UnMaintainer" . "emacs-devel@gnu.org")
 	   (:authors
@@ -631,7 +633,7 @@
 	      (:authors
 	       ("Leo Liu" . "sdl.web@gmail.com")))])
  (ebdb .
-       [(0 6 22)
+       [(0 6 23)
 	((emacs
 	  (25 1))
 	 (cl-lib
@@ -675,7 +677,7 @@
 	      (:authors
 	       ("Markus Triska" . "triska@metalevel.at")))])
  (eev .
-      [(20210512)
+      [(20210529)
        ((emacs
 	 (24 4)))
        "Support for e-scripts (eepitch blocks, elisp hyperlinks, etc)" tar
@@ -799,7 +801,7 @@
 		    ("David Capello" . "davidcapello@gmail.com")
 		    ("Matthew L. Fidler" . "matthew.fidler@gmail.com")))])
  (excorporate .
-	      [(0 9 6)
+	      [(1 0 0)
 	       ((emacs
 		 (24 1))
 		(cl-lib
@@ -1104,6 +1106,16 @@
 	  (:maintainer "Oleh Krehel" . "ohwoeowho@gmail.com")
 	  (:authors
 	   ("Oleh Krehel" . "ohwoeowho@gmail.com")))])
+ (hyperbole .
+	    [(7 1 4 -1)
+	     ((emacs
+	       (27 1)))
+	     "GNU Hyperbole: The Everyday Hypertextual Information Manager" tar
+	     ((:url . "http://www.gnu.org/software/hyperbole")
+	      (:keywords "comm" "convenience" "files" "frames" "hypermedia" "languages" "mail" "matching" "mouse" "multimedia" "outlines" "tools" "wp")
+	      (:maintainer "Bob Weiner <rsw@gnu.org>, Mats Lidell" . "matsl@gnu.org")
+	      (:authors
+	       ("Bob Weiner")))])
  (ioccur .
 	 [(2 4)
 	  ((emacs
@@ -1290,7 +1302,7 @@
 	      ("Terrence Brannon" . "metaperl@gmail.com"))
 	     (:url . "https://elpa.gnu.org/packages/landmark.html"))])
  (leaf .
-       [(4 4 4)
+       [(4 4 8)
 	((emacs
 	  (24 1)))
 	"Simplify your init.el configuration, extended use-package" tar
@@ -1361,11 +1373,11 @@
 	   (:authors
 	    ("Alexey Veretennikov" . "alexey.veretennikov@gmail.com")))])
  (map .
-      [(2 1)
+      [(3 0)
        ((emacs
-	 (25)))
+	 (26)))
        "Map manipulation functions" tar
-       ((:keywords "convenience" "map" "hash-table" "alist" "array")
+       ((:keywords "extensions" "lisp")
 	(:maintainer nil . "emacs-devel@gnu.org")
 	(:authors
 	 ("Nicolas Petton" . "nicolas@petton.fr"))
@@ -1461,6 +1473,16 @@
 			 (:maintainer "Protesilaos Stavrou" . "info@protesilaos.com")
 			 (:authors
 			  ("Protesilaos Stavrou" . "info@protesilaos.com")))])
+ (modus-themes .
+	       [(1 4 0)
+		((emacs
+		  (26 1)))
+		"Highly accessible themes (WCAG AAA)" tar
+		((:url . "https://gitlab.com/protesilaos/modus-themes")
+		 (:keywords "faces" "theme" "accessibility")
+		 (:maintainer "Protesilaos Stavrou" . "info@protesilaos.com")
+		 (:authors
+		  ("Protesilaos Stavrou" . "info@protesilaos.com")))])
  (modus-vivendi-theme .
 		      [(0 13 2)
 		       ((emacs
@@ -1622,6 +1644,16 @@
 	      (:maintainer "Michael Heerdegen" . "michael_heerdegen@web.de")
 	      (:authors
 	       ("Michael Heerdegen" . "michael_heerdegen@web.de")))])
+ (org .
+      [(9 4 6)
+       ((emacs
+	 (24 3)))
+       "Outline-based notes management and organizer" tar
+       ((:url . "https://orgmode.org")
+	(:keywords "outlines" "hypermedia" "calendar" "wp")
+	(:maintainer "Bastien Guerry" . "bzg@gnu.org")
+	(:authors
+	 ("Carsten Dominik" . "carsten.dominik@gmail.com")))])
  (org-edna .
 	   [(1 1 2)
 	    ((emacs
@@ -1758,7 +1790,7 @@
 	   ("Mario Lang" . "mlang@delysid.org"))
 	  (:url . "https://elpa.gnu.org/packages/poker.html"))])
  (posframe .
-	   [(1 0 2)
+	   [(1 0 3)
 	    ((emacs
 	      (26)))
 	    "Pop a posframe (just a frame) at point" tar
@@ -1767,6 +1799,14 @@
 	     (:maintainer "Feng Shu" . "tumashu@163.com")
 	     (:authors
 	      ("Feng Shu" . "tumashu@163.com")))])
+ (project .
+	  [(0 6 0)
+	   ((emacs
+	     (26 1))
+	    (xref
+	     (1 0 2)))
+	   "Operations on the current project" tar
+	   ((:url . "https://elpa.gnu.org/packages/project.html"))])
  (psgml .
 	[(1 3 4)
 	 nil "SGML-editing mode with parsing support" tar
@@ -1785,7 +1825,7 @@
 	       ("Scott Andrew Borton" . "scott@pp.htv.fi"))
 	      (:url . "https://elpa.gnu.org/packages/pspp-mode.html"))])
  (pyim .
-       [(3 7 6)
+       [(3 7 9)
 	((emacs
 	  (24 4))
 	 (async
@@ -1808,9 +1848,9 @@
 		  (:authors
 		   ("Feng Shu" . "tumashu@163.com")))])
  (python .
-	 [(0 26 1)
+	 [(0 27 1)
 	  ((emacs
-	    (24 1))
+	    (24 2))
 	   (cl-lib
 	    (1 0)))
 	  "Python's flying circus support for Emacs" tar
@@ -2105,11 +2145,11 @@
 	     ("Michael R. Mauger" . "michael@mauger.com"))
 	    (:url . "https://elpa.gnu.org/packages/shelisp.html"))])
  (shell-command+ .
-		 [(2 1 0)
+		 [(2 2 0)
 		  ((emacs
 		    (24 1)))
 		  "An extended shell-command" tar
-		  ((:url . "http://elpa.gnu.org/packages/shell-command+.html")
+		  ((:url . "https://git.sr.ht/~zge/bang")
 		   (:keywords "unix" "processes" "convenience")
 		   (:maintainer "Philip K." . "philipk@posteo.net")
 		   (:authors
@@ -2182,8 +2222,18 @@
 	      ("	Matthias Blume" . "blume@cs.princeton.edu")
 	      ("	(Stefan Monnier)" . "monnier@iro.umontreal.ca"))
 	     (:url . "https://elpa.gnu.org/packages/sml-mode.html"))])
+ (so-long .
+	  [(1 0)
+	   ((emacs
+	     (24 4)))
+	   "Say farewell to performance problems with minified code." tar
+	   ((:url . "https://savannah.nongnu.org/projects/so-long")
+	    (:keywords "convenience")
+	    (:maintainer "Phil Sainty" . "psainty@orcon.net.nz")
+	    (:authors
+	     ("Phil Sainty" . "psainty@orcon.net.nz")))])
  (soap-client .
-	      [(3 1 3)
+	      [(3 2 0)
 	       ((cl-lib
 		 (0 6 1)))
 	       "Access SOAP web services" tar
@@ -2262,6 +2312,17 @@
 	   (:authors
 	    ("Nicolas Petton" . "nicolas@petton.fr"))
 	   (:url . "https://elpa.gnu.org/packages/stream.html"))])
+ (svg .
+      [(1 1)
+       ((emacs
+	 (25)))
+       "SVG image creation functions" tar
+       ((:keywords "image")
+	(:maintainer "Lars Magne Ingebrigtsen" . "larsi@gnus.org")
+	(:authors
+	 ("Lars Magne Ingebrigtsen" . "larsi@gnus.org")
+	 ("Felix E. Klee" . "felix.klee@inka.de"))
+	(:url . "https://elpa.gnu.org/packages/svg.html"))])
  (svg-clock .
 	    [(1 2)
 	     ((svg
@@ -2345,7 +2406,7 @@
 	 (:authors
 	  ("Oleh Krehel" . "ohwoeowho@gmail.com")))])
  (tramp .
-	[(2 5 0 4)
+	[(2 5 0 5)
 	 ((emacs
 	   (25 1)))
 	 "Transparent Remote Access, Multiple Protocol" tar
@@ -2372,7 +2433,7 @@
 		("David Gonzalez Gandara" . "dggandara@member.fsf.org"))
 	       (:url . "https://elpa.gnu.org/packages/transcribe.html"))])
  (transient .
-	    [(0 3 2)
+	    [(0 3 4)
 	     ((emacs
 	       (25 1)))
 	     "Transient commands" tar
@@ -2481,8 +2542,17 @@
 	  (:maintainer "Justin Burkett" . "justin@burkett.cc")
 	  (:authors
 	   ("Justin Burkett" . "justin@burkett.cc")))])
+ (verilog-mode .
+	       [(2021 4 12 188864585)
+		nil "major mode for editing verilog source in Emacs" tar
+		((:url . "https://www.veripool.org")
+		 (:keywords "languages")
+		 (:maintainer "Michael McNamara" . "mac@verilog.com")
+		 (:authors
+		  ("Michael McNamara" . "mac@verilog.com")
+		  ("Wilson Snyder" . "wsnyder@wsnyder.org")))])
  (vertico .
-	  [(0 10)
+	  [(0 11)
 	   ((emacs
 	     (27 1)))
 	   "VERTical Interactive COmpletion" tar
@@ -2554,7 +2624,7 @@
 	       (:authors
 		("Eric Schulte" . "schulte.eric@gmail.com")))])
  (webfeeder .
-	    [(1 1 1)
+	    [(1 1 2)
 	     ((emacs
 	       (25 1)))
 	     "Build RSS and Atom webfeeds from HTML files" tar
@@ -2671,6 +2741,12 @@
        (:maintainer "Mattias Engdegård" . "mattiase@acm.org")
        (:authors
 	("Mattias Engdegård" . "mattiase@acm.org")))])
+ (xref .
+       [(1 1 0)
+	((emacs
+	  (26 1)))
+	"Cross-referencing commands" tar
+	((:url . "https://elpa.gnu.org/packages/xref.html"))])
  (yasnippet .
 	    [(0 14 0)
 	     ((cl-lib
